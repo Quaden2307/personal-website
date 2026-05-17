@@ -1,0 +1,129 @@
+import Section from "./Section";
+
+type Project = {
+  name: string;
+  description: string;
+  tags: string[];
+  cover?: string;
+  href?: string;
+  repo?: string;
+  featured?: boolean;
+};
+
+const projects: Project[] = [
+  {
+    name: "AI Chess Bot",
+    description:
+      "Self-learning chess engine built in PyTorch that evaluates board states with a neural network trained against Stockfish.",
+    tags: ["Python", "PyTorch", "ML"],
+    cover: "/projects/chess-bot.png",
+    repo: "https://github.com/Quaden2307",
+    featured: true,
+  },
+  {
+    name: "Hearth",
+    description:
+      "Web platform that helps elderly and disabled homebuyers estimate accessibility-focused renovation costs — with AI-generated before/after visualizations.",
+    tags: ["Python", "React", "TypeScript", "Gemini API"],
+    cover: "/projects/hearth.png",
+    repo: "https://github.com/Quaden2307",
+    featured: true,
+  },
+  {
+    name: "Stock Screener",
+    description:
+      "Real-time stock analysis tool that visualizes market data and filters equities by user-defined criteria like volume, options, and volatility.",
+    tags: ["Python", "Pandas", "NumPy", "React", "TypeScript"],
+    cover: "/projects/stock-screener.png",
+    repo: "https://github.com/Quaden2307",
+  },
+];
+
+export default function Projects() {
+  return (
+    <Section id="projects" label="04" title="Projects">
+      <div className="grid gap-5 sm:grid-cols-2">
+        {projects.map((p, i) => (
+          <article
+            key={i}
+            className="card-glow group relative overflow-hidden rounded-xl border border-border bg-muted/20 p-6 transition-all duration-500 hover:bg-muted/40 hover:-translate-y-1"
+          >
+            {p.featured && (
+              <span className="absolute right-4 top-4 z-10 rounded-full bg-accent/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">
+                Featured
+              </span>
+            )}
+
+            <div className="mb-4 aspect-video w-full overflow-hidden rounded-lg border border-border bg-gradient-to-br from-muted to-background">
+              {p.cover ? (
+                <img
+                  src={p.cover}
+                  alt={p.name}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center transition-transform duration-700 group-hover:scale-105">
+                  <span className="font-mono text-xs text-muted-foreground/60">
+                    [screenshot]
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <h3 className="font-sans text-xl font-semibold tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent">
+              {p.name}
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {p.description}
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {p.tags.map((t, j) => (
+                <span
+                  key={j}
+                  className="rounded-md border border-border bg-background/40 px-2 py-0.5 font-mono text-xs text-muted-foreground"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-5 flex items-center gap-5 text-sm">
+              {p.href && (
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-underline text-foreground transition-colors hover:text-accent"
+                >
+                  Live ↗
+                </a>
+              )}
+              {p.repo && (
+                <a
+                  href={p.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-underline text-foreground transition-colors hover:text-accent"
+                >
+                  GitHub ↗
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-10 text-center">
+        <a
+          href="https://github.com/Quaden2307"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-underline text-sm text-muted-foreground transition-colors hover:text-accent"
+        >
+          See more on GitHub →
+        </a>
+      </div>
+    </Section>
+  );
+}
