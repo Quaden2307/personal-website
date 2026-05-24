@@ -43,7 +43,7 @@ export default function Contact() {
           </a>
           <span className="text-border">·</span>
           <a
-            href="/resume.pdf"
+            href="/caden_sun_resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-accent transition-colors"

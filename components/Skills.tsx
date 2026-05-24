@@ -3,19 +3,34 @@ import Section from "./Section";
 const groups: { label: string; items: string[] }[] = [
   {
     label: "Languages",
-    items: ["Python", "TypeScript", "JavaScript", "C/C++", "SQL", "HTML/CSS"],
+    items: [
+      "Python",
+      "JavaScript/TypeScript",
+      "Java",
+      "C/C++",
+      "SQL",
+      "HTML/CSS",
+    ],
   },
   {
     label: "ML & Data",
-    items: ["PyTorch", "Pandas", "NumPy", "Matplotlib"],
+    items: ["PyTorch", "Pandas", "NumPy", "Matplotlib", "Scikit-learn", "XGBoost"],
   },
   {
     label: "Frameworks & libraries",
-    items: ["React", "Node.js", "Flutter"],
+    items: ["React", "Node.js", "Flask", "LangGraph"],
   },
   {
-    label: "Infra & tools",
-    items: ["AWS", "Azure", "Docker", "Linux", "Git"],
+    label: "Tools & Platforms",
+    items: [
+      "AWS (S3, EC2, DynamoDB)",
+      "Docker",
+      "CI/CD",
+      "Kubernetes",
+      "Linux",
+      "Git",
+      "Vercel",
+    ],
   },
 ];
 

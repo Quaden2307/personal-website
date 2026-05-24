@@ -28,7 +28,7 @@ export default function Hero() {
             href="#role-procogia"
             className="link-underline text-foreground transition-colors duration-300 hover:text-accent"
           >
-            AI Intern
+            AI Engineering Intern
           </a>{" "}
           at{" "}
           <a

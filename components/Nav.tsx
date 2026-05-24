@@ -79,7 +79,7 @@ export default function Nav() {
         </div>
 
         <a
-          href="/resume.pdf"
+          href="/caden_sun_resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="group inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/40 px-3 py-1.5 text-sm text-foreground transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:text-accent"

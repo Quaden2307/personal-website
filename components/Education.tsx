@@ -1,6 +1,7 @@
 import Section from "./Section";
 
 const honours = [
+  "Relevant Coursework: Data Structures & Algorithms, Designing Functional Programs, Linear Algebra, Probability & Statistics",
   "Focus on Machine Learning, Data Science & Software Engineering",
   "Intramural basketball team captain",
   "President's Scholarship of Distinction",
@@ -25,7 +26,7 @@ export default function Education() {
                 University of Waterloo
               </h3>
               <span className="font-mono text-xs text-muted-foreground">
-                Sep 2025 — Present
+                Sep 2025 — Apr 2030
               </span>
             </div>
             <p className="mt-1 text-base text-muted-foreground">

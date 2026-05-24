@@ -12,20 +12,20 @@ type Project = {
 
 const projects: Project[] = [
   {
-    name: "AI Chess Bot",
+    name: "Flight Price Predictor",
     description:
-      "Self-learning chess engine built in PyTorch that evaluates board states with a neural network trained against Stockfish.",
-    tags: ["Python", "PyTorch", "ML"],
-    cover: "/projects/chess-bot.png",
+      "End-to-end flight price prediction system covering 200+ routes across 55+ airports — XGBoost gradient-boosted model on engineered features (route distance, lead time, day-of-week, airline type, transfer count), backed by a fault-tolerant Python + SQLite + launchd pipeline pulling ~4,000 offers/day with 0% final failure rate.",
+    tags: ["Python", "SQLite", "XGBoost", "Pandas", "Scikit-learn"],
+    cover: "/projects/flight-price.png",
     repo: "https://github.com/Quaden2307",
     featured: true,
   },
   {
-    name: "Hearth",
+    name: "AI Chess Bot",
     description:
-      "Web platform that helps elderly and disabled homebuyers estimate accessibility-focused renovation costs — with AI-generated before/after visualizations.",
-    tags: ["Python", "React", "TypeScript", "Gemini API"],
-    cover: "/projects/hearth.png",
+      "Full-stack chess AI deployed as a single Docker image on Render — PyTorch neural network (768→256→128→1) served via Flask REST API and a React/TypeScript frontend, with sub-100ms inference latency and 30% reduction in validation loss across 4 training iterations.",
+    tags: ["Python", "PyTorch", "Flask", "React", "Docker"],
+    cover: "/projects/chess-bot.png",
     repo: "https://github.com/Quaden2307",
     featured: true,
   },
