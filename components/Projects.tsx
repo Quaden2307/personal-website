@@ -23,8 +23,8 @@ const projects: Project[] = [
   {
     name: "AI Chess Bot",
     description:
-      "Full-stack chess engine deployed on Vercel as a serverless Python function paired with a static React build — iterative-deepening negamax with α-β pruning, quiescence search, a Zobrist-keyed transposition table, killer-move/history heuristics, and an opening book selector, with tapered evaluation (material, piece-square tables, pawn structure). Plays at roughly amateur club strength.",
-    tags: ["Python", "Flask", "React", "TypeScript", "Vercel"],
+      "Full-stack chess AI deployed on Vercel (containerized with Docker for an alternative Render deployment), serving a PyTorch neural network (768→256→128→1, ReLU) via Flask REST API and React/TypeScript frontend — sub-second response times, publicly accessible. Improved model generalization across 4 training iterations (30% reduction in validation loss) using Stockfish-labeled data, Adam optimizer, dropout, batch normalization, and hand-crafted signals (material balance, castling rights, center control).",
+    tags: ["Python", "PyTorch", "Flask", "React", "TypeScript", "Docker"],
     cover: "/projects/chess-bot.png",
     href: "https://chess-bot-deployment.vercel.app/",
     repo: "https://github.com/Quaden2307/chess-engine",
