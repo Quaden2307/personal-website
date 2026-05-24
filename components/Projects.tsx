@@ -17,16 +17,17 @@ const projects: Project[] = [
       "End-to-end flight price prediction system covering 200+ routes across 55+ airports — XGBoost gradient-boosted model on engineered features (route distance, lead time, day-of-week, airline type, transfer count), backed by a fault-tolerant Python + SQLite + launchd pipeline pulling ~4,000 offers/day with 0% final failure rate.",
     tags: ["Python", "SQLite", "XGBoost", "Pandas", "Scikit-learn"],
     cover: "/projects/flight-price.png",
-    repo: "https://github.com/Quaden2307",
+    repo: "https://github.com/Quaden2307/flight-price-predictor",
     featured: true,
   },
   {
     name: "AI Chess Bot",
     description:
-      "Full-stack chess AI deployed as a single Docker image on Render — PyTorch neural network (768→256→128→1) served via Flask REST API and a React/TypeScript frontend, with sub-100ms inference latency and 30% reduction in validation loss across 4 training iterations.",
-    tags: ["Python", "PyTorch", "Flask", "React", "Docker"],
+      "Full-stack chess engine deployed on Vercel as a serverless Python function paired with a static React build — iterative-deepening negamax with α-β pruning, quiescence search, a Zobrist-keyed transposition table, killer-move/history heuristics, and an opening book selector, with tapered evaluation (material, piece-square tables, pawn structure). Plays at roughly amateur club strength.",
+    tags: ["Python", "Flask", "React", "TypeScript", "Vercel"],
     cover: "/projects/chess-bot.png",
-    repo: "https://github.com/Quaden2307",
+    href: "https://chess-bot-deployment.vercel.app/",
+    repo: "https://github.com/Quaden2307/chess-engine",
     featured: true,
   },
   {
@@ -35,7 +36,8 @@ const projects: Project[] = [
       "Real-time stock analysis tool that visualizes market data and filters equities by user-defined criteria like volume, options, and volatility.",
     tags: ["Python", "Pandas", "NumPy", "React", "TypeScript"],
     cover: "/projects/stock-screener.png",
-    repo: "https://github.com/Quaden2307",
+    href: "https://stock-trader-deploy.onrender.com/",
+    repo: "https://github.com/Quaden2307/Stock-Trader",
   },
 ];
 
