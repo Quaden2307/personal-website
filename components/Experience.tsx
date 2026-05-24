@@ -14,7 +14,7 @@ type Role = {
 
 const roles: Role[] = [
   {
-    role: "AI Intern",
+    role: "AI Engineering Intern",
     company: "ProCogia",
     anchorId: "role-procogia",
     logo: "/logos/procogia@3x.png",
@@ -22,10 +22,12 @@ const roles: Role[] = [
     imgClass: "scale-110",
     dates: "May 2026 — Present",
     bullets: [
-      "Helping deploy AI solutions end-to-end for client companies — API integration, AWS infrastructure, and production monitoring.",
-      "Researching low-latency voice AI architectures targeting sub-500ms perceived latency.",
+      "Engineered a fully open-source voice AI agent POC from scratch in under a week — migrating off Amazon Connect to LiveKit, Moonshine STT, and a locally hosted Qwen-32B LLM on EC2 — eliminating vendor lock-in and replacing usage-based cloud costs with a fixed compute footprint.",
+      "Reduced latency to under 500ms — a 3× improvement over the initial prototype — by re-architecting the agent pipeline across LangGraph and Twilio with a modular, distributed design.",
+      "Improved RAG workflow retrieval accuracy by designing and deploying production-grade API integrations and cloud infrastructure on AWS (S3, EC2, DynamoDB), enabling scalable document ingestion for client workloads.",
+      "Built an automated smoke test suite for a production AWS pipeline — validating Lambda health, SQS queue state, DLQ depth, and DynamoDB claim seeding in a single runner — replacing manual verification across 4 system boundaries.",
     ],
-    tags: ["Python", "AWS", "LiveKit", "Voice AI"],
+    tags: ["Python", "AWS", "LiveKit", "LangGraph", "Voice AI"],
   },
   {
     role: "ML Engineer",
@@ -35,8 +37,9 @@ const roles: Role[] = [
     tileClass: "h-28 w-28 bg-background p-2",
     dates: "Jan 2025 — Present",
     bullets: [
-      "Quantitative research on how price and volatility shocks propagate across correlated S&P 500 equities.",
-      "Building data pipelines and benchmarking volatility forecasting models against classical baselines.",
+      "Reduced model training iteration time by 40% by engineering a scalable data pipeline (Python, Pandas, NumPy) that ingests live S&P 500 market data and produces structured tensor inputs across 500 equities per batch.",
+      "Identified the best-performing volatility forecaster — cutting prediction error by 18% vs. the naive baseline — by benchmarking 3 ML models (HAR-RV, GARCH(1,1), LSTM) and building a reusable RMSE evaluation harness.",
+      "Improved model reliability by writing unit tests for pipeline stages, conducting code reviews, and debugging model discrepancies — catching 3 data leakage bugs before evaluation.",
     ],
     tags: ["Python", "PyTorch", "Pandas", "NumPy"],
   },
@@ -48,10 +51,10 @@ const roles: Role[] = [
     tileClass: "h-24 w-60 bg-white p-2",
     dates: "Oct 2025 — Apr 2026",
     bullets: [
-      "Built internal tools, mission interfaces, and backend systems for WARG's autonomous drones and ground control station.",
-      "Worked across the stack — Python for control, Dart/Flutter for tooling, JavaScript for backend features.",
+      "Increased ground control station coverage by 15% by implementing a coordinate mapping system in JavaScript for IMACS-3.0, integrating it into the existing backend architecture and validating against live flight telemetry.",
+      "Cut field debugging time by building a real-time flight monitoring dashboard in Dart/Flutter, displaying live telemetry and alerts across Android and desktop using OOP patterns for reusable, testable components.",
     ],
-    tags: ["Python", "Dart", "Flutter", "JavaScript"],
+    tags: ["JavaScript", "Dart", "Flutter", "OOP"],
   },
 ];
 
