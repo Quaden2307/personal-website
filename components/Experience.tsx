@@ -14,7 +14,7 @@ type Role = {
 
 const roles: Role[] = [
   {
-    role: "AI Engineering Intern",
+    role: "AI Intern",
     company: "ProCogia",
     anchorId: "role-procogia",
     logo: "/logos/procogia@3x.png",
