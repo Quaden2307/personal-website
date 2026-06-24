@@ -22,12 +22,12 @@ const roles: Role[] = [
     imgClass: "scale-110",
     dates: "May 2026 — Present",
     bullets: [
-      "Engineered an open-source voice AI agent POC in under a week, migrating from Amazon Connect to LiveKit, Moonshine STT, and a self-hosted Qwen-32B LLM on EC2 — cutting vendor lock-in and replacing usage-based costs with a fixed compute footprint.",
-      "Reduced latency to under 500ms (a 3× improvement over the initial prototype) by re-architecting the agent pipeline across LangGraph and Twilio with a modular, distributed design.",
-      "Improved RAG retrieval accuracy by designing and deploying production-grade API integrations and AWS infrastructure (S3, EC2, DynamoDB), enabling scalable document ingestion for client workloads.",
-      "Built an automated smoke test suite for a production AWS pipeline, validating Lambda health, SQS queue state, DLQ depth, and DynamoDB claim seeding in a single script.",
+      "Built an AI calling agent POC from scratch using a LangGraph-orchestrated LLM, cutting latency by ~500ms (a 3× improvement over the Amazon Connect version).",
+      "Built a RAG pipeline on AWS connecting a document store in S3 to an LLM context window.",
+      "Exhaustively tested the full call-agent pipeline and API endpoints with live-monitoring Python scripts, catching 12 major bugs.",
+      "Conducted root-cause analyses on pipeline failures by tracing HTTP request/response chains and inspecting status codes and payloads, isolating all major bugs across the backend, API endpoints, and auth layer.",
     ],
-    tags: ["Python", "AWS", "LiveKit", "LangGraph", "Voice AI"],
+    tags: ["Python", "LangGraph", "AWS", "RAG"],
   },
   {
     role: "ML Engineer",
@@ -37,11 +37,11 @@ const roles: Role[] = [
     tileClass: "h-28 w-28 bg-background p-2",
     dates: "Jan 2026 — Present",
     bullets: [
-      "Engineered a scalable data pipeline (Python, Pandas, NumPy) ingesting live S&P 500 market data and producing structured tensor inputs across 500 equities per batch to support volatility forecasting models.",
-      "Researched and evaluated ML architectures for multi-stock volatility forecasting — surveying HAR-RV, GARCH, LSTM, and Graph Attention Network (GAT) approaches to inform model selection for a Temporal GNN system.",
-      "Improved pipeline reliability by writing unit tests for pipeline stages and debugging data integrity issues, catching data leakage bugs before model evaluation.",
+      "Built the data pipeline converting raw S&P 500 OHLCV data into model-ready inputs with Pandas and NumPy, engineering 10 features per stock over a 30-day window.",
+      "Implemented missing-data handling with shape and NaN validation, producing clean tensor inputs for up to 500 stocks.",
+      "Connected a Graph Attention Network to an LSTM in PyTorch — writing the module that converts each stock's GAT outputs into the tensor format the LSTM requires, enabling volatility forecasts for 500 stocks.",
     ],
-    tags: ["Python", "Pandas", "NumPy", "GAT", "Temporal GNN"],
+    tags: ["Python", "PyTorch", "Pandas", "NumPy", "GAT", "LSTM"],
   },
   {
     role: "Software Developer",
