@@ -26,7 +26,7 @@ const groups: { label: string; items: string[] }[] = [
       "AWS (S3, EC2, DynamoDB)",
       "Docker",
       "CI/CD",
-      "Kubernetes",
+      "Jupyter Notebook",
       "Linux",
       "Git",
       "Vercel",

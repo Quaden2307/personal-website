@@ -14,8 +14,8 @@ const projects: Project[] = [
   {
     name: "Flight Price Predictor",
     description:
-      "End-to-end flight price prediction system covering 200+ routes across 55+ airports — XGBoost gradient-boosted model on engineered features (route distance, lead time, day-of-week, airline type, transfer count), backed by a fault-tolerant Python + SQLite + launchd pipeline pulling ~4,000 offers/day with 0% final failure rate.",
-    tags: ["Python", "SQLite", "XGBoost", "Pandas", "Scikit-learn"],
+      "End-to-end flight price prediction system covering 200+ routes across 55+ airports — an XGBoost model trained on 18 features chosen through Jupyter Notebook EDA (route distance the strongest predictor) on a 70/15/15 split, currently at ~14% error and targeting sub-10%. Backed by an SQLite ingestion pipeline pulling ~4,000 offers/day with automated cloud backup at a 0% failure rate, plus daily SQL dedup and integrity checks across 180K+ rows.",
+    tags: ["Python", "SQLite", "XGBoost", "Pandas", "NumPy", "Scikit-learn"],
     cover: "/projects/flight-price.png",
     repo: "https://github.com/Quaden2307/flight-price-predictor",
     featured: true,
@@ -23,12 +23,20 @@ const projects: Project[] = [
   {
     name: "AI Chess Bot",
     description:
-      "Full-stack chess AI deployed on Vercel (containerized with Docker for an alternative Render deployment), serving a PyTorch neural network (768→256→128→1, ReLU) via Flask REST API and React/TypeScript frontend — sub-second response times, publicly accessible. Improved model generalization across 4 training iterations (30% reduction in validation loss) using Stockfish-labeled data, Adam optimizer, dropout, batch normalization, and hand-crafted signals (material balance, castling rights, center control).",
+      "Full-stack chess AI deployed on Vercel (containerized with Docker for an alternative Render deployment), serving a PyTorch neural network (768→256→128→1, ReLU) via Flask REST API and React/TypeScript frontend — sub-second response times, publicly accessible. Improved model generalization across 4 training iterations (30% reduction in validation loss) using Stockfish-labeled data, Adam optimizer, batch normalization, and hand-crafted signals (material balance, castling rights, center control).",
     tags: ["Python", "PyTorch", "Flask", "React", "TypeScript", "Docker"],
     cover: "/projects/chess-bot.png",
     href: "https://chess-bot-deployment.vercel.app/",
     repo: "https://github.com/Quaden2307/chess-engine",
     featured: true,
+  },
+  {
+    name: "World Cup Score Prediction Model",
+    description:
+      "Predicts total goals in World Cup matches from teams' historical scoring and defensive records — linear regression built from scratch in NumPy with hand-derived gradient descent, validated against a scikit-learn implementation. Trained on FIFA World Cup data (1930–2026) with a time-based split to avoid leakage, surfacing that scoring has declined across eras and causing models trained on older tournaments to overpredict modern matches.",
+    tags: ["Python", "NumPy", "Scikit-learn", "Linear Regression"],
+    cover: "/projects/world-cup.jpeg",
+    repo: "https://github.com/Quaden2307/world-cup-score-prediction-model",
   },
   {
     name: "Stock Screener",
