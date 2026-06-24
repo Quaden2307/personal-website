@@ -21,7 +21,7 @@ const roles: Role[] = [
     tileClass: "h-44 w-80 bg-white p-0",
     imgClass: "scale-110",
     dates: "May 2026 — Present",
-    description: "Building AI voice calling agents.",
+    description: "Building AI voice calling agents and conducting full pipeline testing.",
     tags: ["Python", "LangGraph", "AWS", "RAG"],
   },
   {
@@ -31,7 +31,7 @@ const roles: Role[] = [
     logo: "/logos/wat_street_logo.jpeg",
     tileClass: "h-28 w-28 bg-background p-2",
     dates: "Jan 2026 — Present",
-    description: "Building ML models for stock volatility forecasting.",
+    description: "Implementing ML models for stock volatility forecasting, focusing on data pipelines.",
     tags: ["Python", "PyTorch", "Pandas", "NumPy", "GAT", "LSTM"],
   },
   {
@@ -98,7 +98,7 @@ export default function Experience() {
                     {r.tags.map((t, j) => (
                       <span
                         key={j}
-                        className="rounded-md border border-border bg-muted/30 px-2.5 py-1 font-mono text-sm text-muted-foreground transition-colors duration-300 hover:border-accent hover:text-accent"
+                        className="rounded-md border border-accent bg-muted/30 px-2.5 py-1 font-mono text-sm text-accent"
                       >
                         {t}
                       </span>
