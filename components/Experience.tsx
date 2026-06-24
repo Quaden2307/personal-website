@@ -7,7 +7,7 @@ type Role = {
   tileClass: string;
   imgClass?: string;
   dates: string;
-  bullets: string[];
+  description: string;
   tags: string[];
   anchorId: string;
 };
@@ -21,12 +21,7 @@ const roles: Role[] = [
     tileClass: "h-44 w-80 bg-white p-0",
     imgClass: "scale-110",
     dates: "May 2026 — Present",
-    bullets: [
-      "Built an AI calling agent POC from scratch using a LangGraph-orchestrated LLM, cutting latency by ~500ms (a 3× improvement over the Amazon Connect version).",
-      "Built a RAG pipeline on AWS connecting a document store in S3 to an LLM context window.",
-      "Exhaustively tested the full call-agent pipeline and API endpoints with live-monitoring Python scripts, catching 12 major bugs.",
-      "Conducted root-cause analyses on pipeline failures by tracing HTTP request/response chains and inspecting status codes and payloads, isolating all major bugs across the backend, API endpoints, and auth layer.",
-    ],
+    description: "Building AI voice calling agents.",
     tags: ["Python", "LangGraph", "AWS", "RAG"],
   },
   {
@@ -36,11 +31,7 @@ const roles: Role[] = [
     logo: "/logos/wat_street_logo.jpeg",
     tileClass: "h-28 w-28 bg-background p-2",
     dates: "Jan 2026 — Present",
-    bullets: [
-      "Built the data pipeline converting raw S&P 500 OHLCV data into model-ready inputs with Pandas and NumPy, engineering 10 features per stock over a 30-day window.",
-      "Implemented missing-data handling with shape and NaN validation, producing clean tensor inputs for up to 500 stocks.",
-      "Connected a Graph Attention Network to an LSTM in PyTorch — writing the module that converts each stock's GAT outputs into the tensor format the LSTM requires, enabling volatility forecasts for 500 stocks.",
-    ],
+    description: "Building ML models for stock volatility forecasting.",
     tags: ["Python", "PyTorch", "Pandas", "NumPy", "GAT", "LSTM"],
   },
   {
@@ -50,10 +41,7 @@ const roles: Role[] = [
     logo: "/logos/updated-warg_logo.avif",
     tileClass: "h-24 w-60 bg-white p-2",
     dates: "Oct 2025 — Apr 2026",
-    bullets: [
-      "Implemented client-side mission export in JavaScript and React for IMACS-3.0, letting users save mission waypoint data directly from the ground control station UI.",
-      "Generated QGC-compatible .waypoints files by formatting mission data into QGC WPL 110 format, adding coordinate conversion logic and empty-state validation to prevent invalid exports.",
-    ],
+    description: "Built mission-planning tools for the drone ground control station.",
     tags: ["JavaScript", "React", "QGC"],
   },
 ];
@@ -102,20 +90,15 @@ export default function Experience() {
                     </span>
                   </div>
 
-                  <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted-foreground">
-                    {r.bullets.map((b, j) => (
-                      <li key={j} className="flex gap-3">
-                        <span className="mt-1.5 inline-block h-1 w-1 flex-none rounded-full bg-accent/60" />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                    {r.description}
+                  </p>
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {r.tags.map((t, j) => (
                       <span
                         key={j}
-                        className="rounded-md border border-border bg-muted/30 px-2 py-0.5 font-mono text-xs text-muted-foreground transition-colors duration-300 hover:border-accent hover:text-accent"
+                        className="rounded-md border border-border bg-muted/30 px-2.5 py-1 font-mono text-sm text-muted-foreground transition-colors duration-300 hover:border-accent hover:text-accent"
                       >
                         {t}
                       </span>
