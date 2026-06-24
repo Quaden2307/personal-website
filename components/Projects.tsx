@@ -35,7 +35,7 @@ const projects: Project[] = [
     description:
       "Predicts total goals in World Cup matches from teams' historical scoring and defensive records — linear regression built from scratch in NumPy with hand-derived gradient descent, validated against a scikit-learn implementation. Trained on FIFA World Cup data (1930–2026) with a time-based split to avoid leakage, surfacing that scoring has declined across eras and causing models trained on older tournaments to overpredict modern matches.",
     tags: ["Python", "NumPy", "Scikit-learn", "Linear Regression"],
-    cover: "/projects/world-cup.jpeg",
+    cover: "/projects/world-cup.avif",
     repo: "https://github.com/Quaden2307/world-cup-score-prediction-model",
   },
   {
