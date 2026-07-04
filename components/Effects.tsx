@@ -40,8 +40,8 @@ export default function Effects() {
     };
 
     const tick = () => {
-      x += (targetX - x) * 0.08;
-      y += (targetY - y) * 0.08;
+      x += (targetX - x) * 0.12;
+      y += (targetY - y) * 0.12;
       if (glow) {
         glow.style.transform = `translate3d(${x - 300}px, ${y - 300}px, 0)`;
       }

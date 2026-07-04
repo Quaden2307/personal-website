@@ -282,21 +282,25 @@ body::before {
 .shimmer-text {
   background: linear-gradient(
     110deg,
-    #ededed 38%,
-    #bfdbfe 47%,
+    #ededed 0%,
+    #ededed 40%,
+    #bfdbfe 46%,
     #60a5fa 50%,
-    #bfdbfe 53%,
-    #ededed 62%
+    #bfdbfe 54%,
+    #ededed 60%,
+    #ededed 100%
   );
-  background-size: 250% 100%;
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   animation: shimmer 7s ease-in-out infinite;
 }
+/* Rest states (0% and 100% background-position) both show only the base
+   color — the blue band is sized to be visible mid-sweep only. */
 @keyframes shimmer {
-  0% { background-position: 120% 0; }
-  45%, 100% { background-position: -80% 0; }
+  0%, 15% { background-position: 100% 0; }
+  55%, 100% { background-position: 0% 0; }
 }
 
 /* Sheen sweep on primary buttons */

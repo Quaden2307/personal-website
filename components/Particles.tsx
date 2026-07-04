@@ -62,12 +62,44 @@ export default function Particles() {
       ph: Math.random() * Math.PI * 2,
     }));
     const sparks: Spark[] = [];
+    const trail: Spark[] = [];
+    const TRAIL_COLORS = ["219, 234, 254", "147, 197, 253", "96, 165, 250"];
+    const trailColor: string[] = [];
 
     let mx = -9999;
     let my = -9999;
+    let lastX = -9999;
+    let lastY = -9999;
     const onMove = (e: PointerEvent) => {
       mx = e.clientX;
       my = e.clientY;
+      // stardust trail: spawn a mote every ~8px of travel
+      if (lastX < -999) {
+        lastX = mx;
+        lastY = my;
+      }
+      const dx = mx - lastX;
+      const dy = my - lastY;
+      const dist = Math.hypot(dx, dy);
+      if (dist > 8 && trail.length < 130) {
+        const steps = Math.min(Math.floor(dist / 8), 4);
+        for (let i = 1; i <= steps; i++) {
+          trail.push({
+            x: lastX + (dx * i) / steps + (Math.random() - 0.5) * 4,
+            y: lastY + (dy * i) / steps + (Math.random() - 0.5) * 4,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5 - 0.15,
+            life: 0,
+            max: 22 + Math.random() * 16,
+            r: 0.8 + Math.random() * 1.3,
+          });
+          trailColor.push(
+            TRAIL_COLORS[Math.floor(Math.random() * TRAIL_COLORS.length)]
+          );
+        }
+        lastX = mx;
+        lastY = my;
+      }
     };
     const onLeave = () => {
       mx = -9999;
@@ -108,9 +140,9 @@ export default function Particles() {
         const dx = p.x - mx;
         const dy = p.y - my;
         const d2 = dx * dx + dy * dy;
-        if (d2 < 120 * 120 && d2 > 0.01) {
+        if (d2 < 150 * 150 && d2 > 0.01) {
           const d = Math.sqrt(d2);
-          const f = ((120 - d) / 120) * 0.6;
+          const f = ((150 - d) / 150) * 1.1;
           p.x += (dx / d) * f;
           p.y += (dy / d) * f;
         }
@@ -126,6 +158,23 @@ export default function Particles() {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(191, 219, 254, ${p.o * twinkle})`;
+        ctx.fill();
+      }
+
+      for (let i = trail.length - 1; i >= 0; i--) {
+        const s = trail[i];
+        s.life++;
+        if (s.life >= s.max) {
+          trail.splice(i, 1);
+          trailColor.splice(i, 1);
+          continue;
+        }
+        s.x += s.vx;
+        s.y += s.vy;
+        const a = 1 - s.life / s.max;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * a, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${trailColor[i]}, ${0.8 * a})`;
         ctx.fill();
       }
 
