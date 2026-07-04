@@ -3,7 +3,10 @@ import Section from "./Section";
 export default function Contact() {
   return (
     <Section id="contact" label="06" title="Contact">
-      <div className="rounded-2xl border border-border bg-gradient-to-br from-muted/30 to-background p-8 sm:p-12 text-center">
+      <div
+        data-spotlight
+        className="rounded-2xl border border-border bg-gradient-to-br from-muted/30 to-background p-8 sm:p-12 text-center"
+      >
         <h3 className="font-sans text-4xl sm:text-5xl font-semibold tracking-[-0.03em] text-foreground">
           Let&apos;s talk.
         </h3>
@@ -15,7 +18,7 @@ export default function Contact() {
 
         <a
           href="mailto:cadensun07@gmail.com"
-          className="group mt-8 inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.6)]"
+          className="btn-sheen group mt-8 inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.6)]"
         >
           cadensun07@gmail.com
           <span className="transition-transform duration-300 group-hover:translate-x-1">

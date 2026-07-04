@@ -4,6 +4,10 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-screen flex-col justify-center pt-24 pb-16"
     >
+      <div
+        className="hero-grid absolute top-0 bottom-0 left-1/2 w-screen -translate-x-1/2 -z-10"
+        aria-hidden
+      />
       <div className="stagger flex flex-col">
         <div className="inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
           <span className="relative flex h-2 w-2">
@@ -13,7 +17,7 @@ export default function Hero() {
           <span>Open to opportunities</span>
         </div>
 
-        <h1 className="mt-6 font-sans text-6xl sm:text-7xl md:text-8xl font-semibold tracking-[-0.04em] text-foreground leading-[1.02]">
+        <h1 className="shimmer-text mt-6 font-sans text-6xl sm:text-7xl md:text-8xl font-semibold tracking-[-0.04em] leading-[1.02]">
           Caden Sun.
         </h1>
 
@@ -57,7 +61,7 @@ export default function Hero() {
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <a
             href="#experience"
-            className="group inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-8px_rgba(59,130,246,0.6)]"
+            className="btn-sheen group inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-8px_rgba(59,130,246,0.6)]"
           >
             View my work
             <span className="transition-transform duration-300 group-hover:translate-x-1">

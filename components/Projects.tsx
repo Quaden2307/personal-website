@@ -56,6 +56,7 @@ export default function Projects() {
         {projects.map((p, i) => (
           <article
             key={i}
+            data-spotlight
             className="card-glow group relative overflow-hidden rounded-xl border border-border bg-muted/20 p-6 transition-all duration-500 hover:bg-muted/40 hover:-translate-y-1"
           >
             {p.featured && (

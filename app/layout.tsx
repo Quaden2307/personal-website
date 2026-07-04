@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Effects from "@/components/Effects";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -27,6 +28,12 @@ export default function RootLayout({
         />
       </head>
       <body className="relative min-h-screen">
+        <div className="aurora" aria-hidden>
+          <span />
+          <span />
+          <span />
+        </div>
+        <Effects />
         <div className="relative z-10">{children}</div>
       </body>
     </html>

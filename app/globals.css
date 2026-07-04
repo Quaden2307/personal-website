@@ -151,7 +151,184 @@ body::before {
   z-index: -1;
 }
 .card-glow:hover::before {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.7), rgba(59, 130, 246, 0));
+  background: radial-gradient(
+    280px circle at var(--sx, 50%) var(--sy, 20%),
+    rgba(96, 165, 250, 0.9),
+    rgba(59, 130, 246, 0.15) 55%,
+    transparent 80%
+  );
+}
+
+/* Inner spotlight that follows the cursor on cards */
+[data-spotlight] {
+  position: relative;
+}
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  background: radial-gradient(
+    340px circle at var(--sx, 50%) var(--sy, 50%),
+    rgba(59, 130, 246, 0.1),
+    transparent 65%
+  );
+  z-index: 1;
+}
+[data-spotlight]:hover::after {
+  opacity: 1;
+}
+
+/* Cursor ambient glow (desktop only, driven by Effects.tsx) */
+#cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(59, 130, 246, 0.045) 35%,
+    transparent 70%
+  );
+  will-change: transform;
+}
+
+/* Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
+  transform-origin: 0 0;
+  transform: scaleX(0);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.55);
+  pointer-events: none;
+}
+
+/* Aurora backdrop — slow-drifting blue light behind everything */
+.aurora {
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(90px);
+  opacity: 0.55;
+}
+.aurora span {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.aurora span:nth-child(1) {
+  top: -10%;
+  left: -10%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.16), transparent 65%);
+  animation: aurora-a 26s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(2) {
+  bottom: -15%;
+  right: -5%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 65%);
+  animation: aurora-b 32s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(3) {
+  top: 30%;
+  right: 25%;
+  width: 35vw;
+  height: 35vw;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.07), transparent 65%);
+  animation: aurora-c 38s ease-in-out infinite alternate;
+}
+@keyframes aurora-a {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(9vw, 7vh) scale(1.18); }
+}
+@keyframes aurora-b {
+  from { transform: translate(0, 0) scale(1.1); }
+  to   { transform: translate(-8vw, -6vh) scale(0.95); }
+}
+@keyframes aurora-c {
+  from { transform: translate(0, 0) scale(0.95); }
+  to   { transform: translate(6vw, -8vh) scale(1.15); }
+}
+
+/* Masked grid backdrop for the hero */
+.hero-grid {
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 42%, #000 25%, transparent 72%);
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 42%, #000 25%, transparent 72%);
+}
+
+/* Shimmer sweep across the hero name */
+.shimmer-text {
+  background: linear-gradient(
+    110deg,
+    #ededed 38%,
+    #bfdbfe 47%,
+    #60a5fa 50%,
+    #bfdbfe 53%,
+    #ededed 62%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 7s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 120% 0; }
+  45%, 100% { background-position: -80% 0; }
+}
+
+/* Sheen sweep on primary buttons */
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.btn-sheen:hover::after {
+  left: 130%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora span,
+  .shimmer-text {
+    animation: none;
+  }
+  .shimmer-text {
+    background: none;
+    color: #ededed;
+  }
 }
 
 /* Animated link underline */
