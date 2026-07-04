@@ -17,8 +17,8 @@ export default function Hero() {
           <span>Open to opportunities</span>
         </div>
 
-        <h1 className="shimmer-text mt-6 font-sans text-6xl sm:text-7xl md:text-8xl font-semibold tracking-[-0.04em] leading-[1.02]">
-          Caden Sun.
+        <h1 className="mt-6 font-sans text-6xl sm:text-7xl md:text-8xl font-semibold tracking-[-0.04em] text-foreground leading-[1.02]">
+          <span className="shimmer-text">Caden Sun.</span>
         </h1>
 
         <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-light tracking-tight text-muted-foreground leading-tight">
