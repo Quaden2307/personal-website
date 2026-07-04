@@ -10,7 +10,10 @@ const honours = [
 export default function Education() {
   return (
     <Section id="education" label="02" title="Education">
-      <div className="group rounded-xl border border-border bg-muted/20 p-6 sm:p-8 transition-all duration-500 hover:border-accent/40 hover:bg-muted/30">
+      <div
+        data-spotlight
+        className="group rounded-xl border border-border bg-muted/20 p-6 sm:p-8 transition-all duration-500 hover:border-accent/40 hover:bg-muted/30"
+      >
         <div className="flex items-start gap-4">
           <div className="flex h-40 w-40 flex-none items-center justify-center overflow-hidden rounded-md border border-border bg-white p-2 transition-transform duration-300 group-hover:scale-105">
             <img
