@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Effects from "@/components/Effects";
+import Particles from "@/components/Particles";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({
           <span />
         </div>
         <Effects />
+        <Particles />
         <div className="relative z-10">{children}</div>
       </body>
     </html>
