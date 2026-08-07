@@ -8,35 +8,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0a",
-        foreground: "#ededed",
-        muted: "#161616",
-        "muted-foreground": "#8a8a8a",
-        border: "#1f1f1f",
-        accent: {
-          DEFAULT: "#3b82f6",
-          hover: "#60a5fa",
-          glow: "rgba(59, 130, 246, 0.15)",
+        background: "#070a14", // void
+        foreground: "#eaedf6", // starlight
+        hull: "#0e1424",
+        border: "#212c4e", // hairline
+        dust: "#96a0c2",
+        amber: {
+          DEFAULT: "#ffb454",
+          dim: "rgba(255, 180, 84, 0.14)",
         },
+        ion: "#7fa7ff",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "monospace"],
-      },
-      animation: {
-        "fade-in-up": "fadeInUp 0.6s ease-out forwards",
-        "fade-in": "fadeIn 0.8s ease-out forwards",
-      },
-      keyframes: {
-        fadeInUp: {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
+        sans: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        mono: ["var(--font-plex)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
     },
   },

@@ -1,27 +1,20 @@
-import Section from "./Section";
+import Station, { delay } from "./Station";
 
-const groups: { label: string; items: string[] }[] = [
+const clusters: { label: string; items: string[] }[] = [
   {
     label: "Languages",
-    items: [
-      "Python",
-      "JavaScript/TypeScript",
-      "Java",
-      "C/C++",
-      "SQL",
-      "HTML/CSS",
-    ],
+    items: ["Python", "JavaScript/TypeScript", "Java", "C/C++", "SQL", "HTML/CSS"],
   },
   {
     label: "ML & Data",
     items: ["PyTorch", "Pandas", "NumPy", "Matplotlib", "Scikit-learn", "XGBoost"],
   },
   {
-    label: "Frameworks & libraries",
+    label: "Frameworks",
     items: ["React", "Node.js", "Flask", "LangGraph"],
   },
   {
-    label: "Tools & Platforms",
+    label: "Platforms",
     items: [
       "AWS (S3, EC2, DynamoDB)",
       "Docker",
@@ -36,19 +29,16 @@ const groups: { label: string; items: string[] }[] = [
 
 export default function Skills() {
   return (
-    <Section id="skills" label="05" title="Skills">
-      <div className="grid gap-8 sm:grid-cols-2">
-        {groups.map((g) => (
-          <div key={g.label}>
-            <h4 className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
-              {g.label}
-            </h4>
+    <Station id="skills" code="Stop 05 · Systems" title="Skills">
+      <div className="st grid gap-px overflow-hidden rounded-[2px] border border-border bg-border sm:grid-cols-2" style={delay(160)}>
+        {clusters.map((c) => (
+          <div key={c.label} className="bg-hull p-5 sm:p-6">
+            <h3 className="mb-3 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-amber">
+              {c.label}
+            </h3>
             <ul className="flex flex-wrap gap-2">
-              {g.items.map((s, i) => (
-                <li
-                  key={i}
-                  className="cursor-default rounded-md border border-border bg-muted/30 px-2.5 py-1 font-mono text-xs text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:text-accent"
-                >
+              {c.items.map((s) => (
+                <li key={s} className="chip cursor-default">
                   {s}
                 </li>
               ))}
@@ -56,6 +46,6 @@ export default function Skills() {
           </div>
         ))}
       </div>
-    </Section>
+    </Station>
   );
 }

@@ -36,3 +36,6 @@ next-env.d.ts
 
 # GitHub profile README staging copies (the live version lives in the Quaden2307 repo)
 github-profile/
+
+#claude
+.claude
