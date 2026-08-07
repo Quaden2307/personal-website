@@ -1,7 +1,23 @@
-import type { Metadata } from "next";
-import Effects from "@/components/Effects";
-import Particles from "@/components/Particles";
+import type { Metadata, Viewport } from "next";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import Starfield from "@/components/Starfield";
+import Choreo from "@/components/Choreo";
+import ShipCursor from "@/components/ShipCursor";
 import "./globals.css";
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-archivo",
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Caden Sun",
@@ -13,29 +29,21 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#070a14",
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${archivo.variable} ${plexMono.variable}`}>
       <body className="relative min-h-screen">
-        <div className="aurora" aria-hidden>
-          <span />
-          <span />
-          <span />
-        </div>
-        <Effects />
-        <Particles />
+        <Starfield />
+        <Choreo />
+        <ShipCursor />
         <div className="relative z-10">{children}</div>
       </body>
     </html>

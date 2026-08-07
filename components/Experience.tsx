@@ -1,4 +1,4 @@
-import Section from "./Section";
+import Station, { delay } from "./Station";
 
 type Role = {
   role: string;
@@ -18,10 +18,11 @@ const roles: Role[] = [
     company: "ProCogia",
     anchorId: "role-procogia",
     logo: "/logos/procogia@3x.png",
-    tileClass: "h-44 w-80 bg-white p-0",
+    tileClass: "h-16 w-40 bg-white",
     imgClass: "scale-110",
     dates: "May 2026 — Present",
-    description: "Building AI voice calling agents and conducting full pipeline testing.",
+    description:
+      "Building AI voice calling agents and conducting full pipeline testing.",
     tags: ["Python", "LangGraph", "AWS", "RAG"],
   },
   {
@@ -29,9 +30,10 @@ const roles: Role[] = [
     company: "Wat Street",
     anchorId: "role-watstreet",
     logo: "/logos/wat_street_logo.jpeg",
-    tileClass: "h-28 w-28 bg-background p-2",
+    tileClass: "h-16 w-16 bg-background",
     dates: "Jan 2026 — Present",
-    description: "Implementing ML models for stock volatility forecasting, focusing on data pipelines.",
+    description:
+      "Implementing ML models for stock volatility forecasting, focusing on data pipelines.",
     tags: ["Python", "PyTorch", "Pandas", "NumPy", "GAT", "LSTM"],
   },
   {
@@ -39,7 +41,7 @@ const roles: Role[] = [
     company: "Waterloo Aerial Robotics Group",
     anchorId: "role-warg",
     logo: "/logos/updated-warg_logo.avif",
-    tileClass: "h-24 w-60 bg-white p-2",
+    tileClass: "h-16 w-40 bg-white",
     dates: "Oct 2025 — Apr 2026",
     description: "Built mission-planning tools for the drone ground control station.",
     tags: ["JavaScript", "React", "QGC"],
@@ -48,68 +50,64 @@ const roles: Role[] = [
 
 export default function Experience() {
   return (
-    <Section id="experience" label="03" title="Experience">
-      <ol className="relative space-y-12 sm:space-y-16">
-        {/* Center vertical timeline line (desktop only) */}
-        <div className="absolute left-1/2 top-0 bottom-0 hidden w-px -translate-x-1/2 bg-border sm:block" />
+    <Station id="experience" code="Stop 03 · Interchange" title="Experience">
+      <div className="relative">
+        {/* The line segment through the interchange */}
+        <div className="absolute bottom-2 left-[5px] top-2 w-0.5 bg-border" aria-hidden />
+        <div
+          className="seg-fill absolute bottom-2 left-[5px] top-2 w-0.5 bg-amber"
+          aria-hidden
+        />
 
-        {roles.map((r, i) => {
-          const onLeft = i % 2 === 0;
-          return (
-            <li
-              key={i}
-              id={r.anchorId}
-              className="scroll-mt-24 group relative grid grid-cols-1 sm:grid-cols-2 sm:gap-x-12"
-            >
-              {/* Dot on the center line */}
-              <span className="absolute left-1/2 top-12 z-10 hidden h-3.5 w-3.5 -translate-x-1/2 items-center justify-center rounded-full border border-border bg-background transition-all duration-300 group-hover:scale-110 group-hover:border-accent sm:flex">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent transition-transform duration-300 group-hover:scale-125" />
-              </span>
+        <ol className="space-y-14 pl-9 sm:pl-12">
+        {roles.map((r, i) => (
+          <li
+            key={r.anchorId}
+            id={r.anchorId}
+            className="st relative scroll-mt-28"
+            style={delay(160 + i * 120)}
+          >
+            {/* Platform marker on the line */}
+            <span
+              className="absolute -left-9 top-1.5 flex h-3 w-3 items-center justify-center rounded-full border-2 border-amber bg-background sm:-left-12"
+              aria-hidden
+            />
 
-              <div className={onLeft ? "" : "sm:col-start-2"}>
-                <div
-                  className={`flex items-center justify-center overflow-hidden rounded-md border border-border transition-all duration-300 group-hover:scale-105 group-hover:border-accent ${r.tileClass}`}
-                >
-                  <img
-                    src={r.logo}
-                    alt={r.company}
-                    className={`h-full w-full object-contain ${r.imgClass ?? ""}`}
-                  />
-                </div>
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-amber">
+              {r.dates}
+            </p>
 
-                <div className="mt-5">
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h3 className="font-sans text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
-                      {r.role}{" "}
-                      <span className="font-normal text-muted-foreground">
-                        @ {r.company}
-                      </span>
-                    </h3>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {r.dates}
-                    </span>
-                  </div>
-
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                    {r.description}
-                  </p>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {r.tags.map((t, j) => (
-                      <span
-                        key={j}
-                        className="rounded-md border border-accent bg-muted/30 px-2.5 py-1 font-mono text-sm text-accent"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+            <div className="mt-3 flex flex-wrap items-center gap-4">
+              <div
+                className={`flex flex-none items-center justify-center overflow-hidden rounded-[2px] border border-border p-1.5 ${r.tileClass}`}
+              >
+                <img
+                  src={r.logo}
+                  alt={r.company}
+                  className={`h-full w-full object-contain ${r.imgClass ?? ""}`}
+                />
               </div>
-            </li>
-          );
-        })}
-      </ol>
-    </Section>
+              <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                {r.role}{" "}
+                <span className="font-normal text-dust">@ {r.company}</span>
+              </h3>
+            </div>
+
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-dust">
+              {r.description}
+            </p>
+
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {r.tags.map((t) => (
+                <li key={t} className="chip">
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+        </ol>
+      </div>
+    </Station>
   );
 }

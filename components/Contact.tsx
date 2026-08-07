@@ -1,60 +1,61 @@
-import Section from "./Section";
+import Station, { delay } from "./Station";
 
 export default function Contact() {
   return (
-    <Section id="contact" label="06" title="Contact">
-      <div
-        data-spotlight
-        className="rounded-2xl border border-border bg-gradient-to-br from-muted/30 to-background p-8 sm:p-12 text-center"
-      >
-        <h3 className="font-sans text-4xl sm:text-5xl font-semibold tracking-[-0.03em] text-foreground">
-          Let&apos;s talk.
-        </h3>
-        <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground leading-relaxed">
-          Open to internships and collaborations in software, ML, and AI
-          infrastructure. If you&apos;d like to chat or have an opportunity in
-          mind, my inbox is open.
-        </p>
-
+    <Station id="contact" code="Stop 06 · Terminus" title="Contact">
+      <div className="st" style={delay(160)}>
         <a
           href="mailto:cadensun07@gmail.com"
-          className="btn-sheen group mt-8 inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-10px_rgba(59,130,246,0.6)]"
+          className="inline-block rounded-[2px] bg-amber px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.16em] text-background transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-8px_rgba(255,180,84,0.6)]"
         >
-          cadensun07@gmail.com
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
+          Email me
         </a>
+      </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
+      <dl className="st board mt-12 max-w-md border-t border-border pt-6" style={delay(280)}>
+        <dt>Email</dt>
+        <dd>
+          <a
+            href="mailto:cadensun07@gmail.com"
+            className="link-underline normal-case transition-colors hover:text-amber"
+          >
+            cadensun07@gmail.com
+          </a>
+        </dd>
+        <dt>LinkedIn</dt>
+        <dd>
           <a
             href="https://linkedin.com/in/cadensun"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-accent transition-colors"
+            className="link-underline transition-colors hover:text-amber"
           >
-            LinkedIn
+            /in/cadensun ↗
           </a>
-          <span className="text-border">·</span>
+        </dd>
+        <dt>GitHub</dt>
+        <dd>
           <a
             href="https://github.com/Quaden2307"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-accent transition-colors"
+            className="link-underline transition-colors hover:text-amber"
           >
-            GitHub
+            /Quaden2307 ↗
           </a>
-          <span className="text-border">·</span>
+        </dd>
+        <dt>Resume</dt>
+        <dd>
           <a
             href="/caden_sun_resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-accent transition-colors"
+            className="link-underline transition-colors hover:text-amber"
           >
-            Resume (PDF)
+            PDF ↗
           </a>
-        </div>
-      </div>
-    </Section>
+        </dd>
+      </dl>
+    </Station>
   );
 }

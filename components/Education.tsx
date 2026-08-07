@@ -1,57 +1,45 @@
-import Section from "./Section";
+import Station, { delay } from "./Station";
 
-const honours = [
-  "Relevant Coursework: Data Structures & Algorithms, Designing Functional Programs, Linear Algebra, Probability & Statistics",
-  "Focus on Machine Learning, Data Science & Software Engineering",
-  "Intramural basketball team captain",
-  "President's Scholarship of Distinction",
+const manifest = [
+  "Coursework: Data Structures & Algorithms, Designing Functional Programs, Linear Algebra, Probability & Statistics",
+  "Focus on Machine Learning, AI & Software Engineering",
+  "Intramural basketball Team Captain",
 ];
 
 export default function Education() {
   return (
-    <Section id="education" label="02" title="Education">
-      <div
-        data-spotlight
-        className="group rounded-xl border border-border bg-muted/20 p-6 sm:p-8 transition-all duration-500 hover:border-accent/40 hover:bg-muted/30"
-      >
-        <div className="flex items-start gap-4">
-          <div className="flex h-40 w-40 flex-none items-center justify-center overflow-hidden rounded-md border border-border bg-white p-2 transition-transform duration-300 group-hover:scale-105">
+    <Station id="education" code="Stop 02 · Origin" title="UWaterloo">
+      <div className="st rounded-[2px] border border-border bg-hull p-6 sm:p-8" style={delay(160)}>
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <dl className="board">
+            <dt>Program</dt>
+            <dd>Bachelor of Mathematics</dd>
+            <dt>Term</dt>
+            <dd>Sep 2025 → Apr 2030</dd>
+            <dt>Standing</dt>
+            <dd className="text-amber">President&apos;s Scholarship of Distinction</dd>
+          </dl>
+
+          <div className="flex h-24 w-24 flex-none items-center justify-center overflow-hidden rounded-[2px] border border-border bg-white p-1.5">
             <img
               src="/logos/University_of_Waterloo_seal.svg.png"
-              alt="University of Waterloo"
+              alt="University of Waterloo seal"
               className="h-full w-full object-contain"
             />
           </div>
+        </div>
 
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <h3 className="font-sans text-xl sm:text-2xl font-semibold tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent">
-                University of Waterloo
-              </h3>
-              <span className="font-mono text-xs text-muted-foreground">
-                Sep 2025 — Apr 2030
-              </span>
-            </div>
-            <p className="mt-1 text-base text-muted-foreground">
-              Bachelor of Mathematics
-            </p>
-
-            <div className="mt-5">
-              <h4 className="mb-2 font-mono text-xs uppercase tracking-wider text-accent">
-                Honours &amp; activities
-              </h4>
-              <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
-                {honours.map((h, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="mt-1.5 inline-block h-1 w-1 flex-none rounded-full bg-accent/60" />
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+        <div className="mt-7 border-t border-border pt-6">
+          <ul className="space-y-2 text-sm leading-relaxed text-dust">
+            {manifest.map((m, i) => (
+              <li key={i} className="flex gap-3">
+                <span className="mt-2 inline-block h-1 w-1 flex-none bg-amber" />
+                <span>{m}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </Section>
+    </Station>
   );
 }

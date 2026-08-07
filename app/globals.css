@@ -2,45 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* OUTBOUND — one metaphor, one ambient system.
+   Tokens: void ground, hull panels, hairline rules, starlight text,
+   dust muted, signal amber accent, ion blue in trace doses. */
 :root {
-  --font-sans: "Geist", system-ui, -apple-system, sans-serif;
-  --font-display: "Geist", system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --void: #070a14;
+  --hull: #0e1424;
+  --hairline: #212c4e;
+  --starlight: #eaedf6;
+  --dust: #96a0c2;
+  --amber: #ffb454;
+  --ion: #7fa7ff;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-* {
-  border-color: theme("colors.border");
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 html,
 body {
-  background: #0a0a0a;
-  color: #ededed;
-  font-family: var(--font-sans);
+  background: var(--void);
+  color: var(--starlight);
+  font-family: var(--font-archivo), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "ss01", "cv11";
 }
 
-/* Subtle film grain */
+/* Subtle film grain — the one texture kept from the old site */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.025;
+  opacity: 0.028;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.35);
+  background: rgba(255, 180, 84, 0.28);
   color: #ffffff;
 }
 
@@ -49,293 +52,92 @@ body::before {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--void);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f1f1f;
+  background: var(--hairline);
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2a2a2a;
+  background: var(--dust);
 }
 
-/* ------- Animations ------- */
-
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+/* ------- Type voices ------- */
+
+/* Station signage — Archivo at 125% width, caps */
+.sign {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-stretch: 125%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
+/* Departure-board rows — telemetry layer */
+.board {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  row-gap: 0.45rem;
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.board dt {
+  color: var(--dust);
+  opacity: 0.7;
+}
+.board dd {
+  margin: 0;
+  color: var(--starlight);
+}
+.board dd a {
+  color: inherit;
+}
+.blink-dot::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+  margin-right: 0.55rem;
+  vertical-align: 1px;
+  animation: blink 1.6s steps(2, start) infinite;
+}
 @keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55); }
-  100% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-}
-
-@keyframes drift {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(0, -3px); }
-}
-
-@keyframes scrollDot {
-  0%   { transform: translateY(-100%); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { transform: translateY(500%); opacity: 0; }
-}
-.animate-scroll-dot {
-  animation: scrollDot 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-
-.animate-blink {
-  animation: blink 1s steps(1) infinite;
-}
-
-.pulse-dot {
-  animation: pulse-ring 2.2s ease-out infinite;
-}
-
-/* Hero entrance stagger */
-.stagger > * {
-  opacity: 0;
-  animation: fadeInUp 0.7s var(--ease-out-expo) forwards;
-}
-.stagger > *:nth-child(1) { animation-delay: 0.05s; }
-.stagger > *:nth-child(2) { animation-delay: 0.15s; }
-.stagger > *:nth-child(3) { animation-delay: 0.25s; }
-.stagger > *:nth-child(4) { animation-delay: 0.35s; }
-.stagger > *:nth-child(5) { animation-delay: 0.45s; }
-.stagger > *:nth-child(6) { animation-delay: 0.55s; }
-.stagger > *:nth-child(7) { animation-delay: 0.65s; }
-
-/* Section reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.8s var(--ease-out-expo),
-    transform 0.8s var(--ease-out-expo);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Project card glow border on hover */
-.card-glow {
-  position: relative;
-  isolation: isolate;
-}
-.card-glow::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0));
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  transition: background 0.5s ease;
-  z-index: -1;
-}
-.card-glow:hover::before {
-  background: radial-gradient(
-    280px circle at var(--sx, 50%) var(--sy, 20%),
-    rgba(96, 165, 250, 0.9),
-    rgba(59, 130, 246, 0.15) 55%,
-    transparent 80%
-  );
-}
-
-/* Inner spotlight that follows the cursor on cards */
-[data-spotlight] {
-  position: relative;
-}
-[data-spotlight]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.45s ease;
-  background: radial-gradient(
-    340px circle at var(--sx, 50%) var(--sy, 50%),
-    rgba(59, 130, 246, 0.1),
-    transparent 65%
-  );
-  z-index: 1;
-}
-[data-spotlight]:hover::after {
-  opacity: 1;
-}
-
-/* Cursor ambient glow (desktop only, driven by Effects.tsx) */
-#cursor-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 600px;
-  height: 600px;
-  border-radius: 9999px;
-  pointer-events: none;
-  z-index: 3;
-  background: radial-gradient(
-    circle,
-    rgba(59, 130, 246, 0.1) 0%,
-    rgba(59, 130, 246, 0.045) 35%,
-    transparent 70%
-  );
-  will-change: transform;
-}
-
-/* Scroll progress bar */
-#scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  z-index: 60;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
-  transform-origin: 0 0;
-  transform: scaleX(0);
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.55);
-  pointer-events: none;
-}
-
-/* Aurora backdrop — slow-drifting blue light behind everything */
-.aurora {
-  position: fixed;
-  inset: -20%;
-  z-index: 0;
-  pointer-events: none;
-  filter: blur(90px);
-  opacity: 0.55;
-}
-.aurora span {
-  position: absolute;
-  border-radius: 9999px;
-  will-change: transform;
-}
-.aurora span:nth-child(1) {
-  top: -10%;
-  left: -10%;
-  width: 55vw;
-  height: 55vw;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.16), transparent 65%);
-  animation: aurora-a 26s ease-in-out infinite alternate;
-}
-.aurora span:nth-child(2) {
-  bottom: -15%;
-  right: -5%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 65%);
-  animation: aurora-b 32s ease-in-out infinite alternate;
-}
-.aurora span:nth-child(3) {
-  top: 30%;
-  right: 25%;
-  width: 35vw;
-  height: 35vw;
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.07), transparent 65%);
-  animation: aurora-c 38s ease-in-out infinite alternate;
-}
-@keyframes aurora-a {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(9vw, 7vh) scale(1.18); }
-}
-@keyframes aurora-b {
-  from { transform: translate(0, 0) scale(1.1); }
-  to   { transform: translate(-8vw, -6vh) scale(0.95); }
-}
-@keyframes aurora-c {
-  from { transform: translate(0, 0) scale(0.95); }
-  to   { transform: translate(6vw, -8vh) scale(1.15); }
-}
-
-/* Masked grid backdrop for the hero */
-.hero-grid {
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 42%, #000 25%, transparent 72%);
-  mask-image: radial-gradient(ellipse 75% 60% at 50% 42%, #000 25%, transparent 72%);
-}
-
-/* Shimmer sweep across the hero name */
-.shimmer-text {
-  background: linear-gradient(
-    110deg,
-    #ededed 0%,
-    #ededed 40%,
-    #bfdbfe 46%,
-    #60a5fa 50%,
-    #bfdbfe 54%,
-    #ededed 60%,
-    #ededed 100%
-  );
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 7s ease-in-out infinite;
-}
-/* Rest states (0% and 100% background-position) both show only the base
-   color — the blue band is sized to be visible mid-sweep only. */
-@keyframes shimmer {
-  0%, 15% { background-position: 100% 0; }
-  55%, 100% { background-position: 0% 0; }
-}
-
-/* Sheen sweep on primary buttons */
-.btn-sheen {
-  position: relative;
-  overflow: hidden;
-}
-.btn-sheen::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -60%;
-  width: 40%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  transform: skewX(-20deg);
-  transition: left 0.6s ease;
-  pointer-events: none;
-}
-.btn-sheen:hover::after {
-  left: 130%;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .aurora span,
-  .shimmer-text {
-    animation: none;
-  }
-  .shimmer-text {
-    background: none;
-    color: #ededed;
+  50% {
+    opacity: 0.25;
   }
 }
 
-/* Animated link underline */
+/* Instrument chips — switches, not stickers */
+.chip {
+  display: inline-block;
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  padding: 0.2rem 0.55rem;
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--dust);
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+.chip:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: rgba(255, 180, 84, 0.08);
+}
+
+/* Animated link underline (kept from the old site — it earns its place) */
 .link-underline {
   position: relative;
 }
@@ -343,7 +145,7 @@ body::before {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -4px;
+  bottom: -3px;
   width: 100%;
   height: 1px;
   background: currentColor;
@@ -355,4 +157,199 @@ body::before {
 .link-underline.active::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+/* ------- Arrival choreography -------
+   Stations reveal when they enter the viewport: the eyebrow hairline
+   draws, then children marked .st dock in (stagger via --d).
+   All hidden states are gated on html.js so a no-JS visitor sees
+   everything; Choreo.tsx adds the class on mount. */
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.eyebrow::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--hairline);
+}
+
+html.js .station .st {
+  opacity: 0;
+  transform: translateY(18px);
+}
+html.js .station .st-dock {
+  opacity: 0;
+  transform: translateX(28px);
+}
+html.js .station .eyebrow::after {
+  transform: scaleX(0);
+  transform-origin: 0 0;
+}
+html.js .station.arrived .st {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.7s var(--ease-out-expo) var(--d, 0ms),
+    transform 0.7s var(--ease-out-expo) var(--d, 0ms);
+}
+html.js .station.arrived .st-dock {
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity 0.8s var(--ease-out-expo) var(--d, 0ms),
+    transform 0.8s var(--ease-out-expo) var(--d, 0ms);
+}
+html.js .station.arrived .eyebrow::after {
+  transform: scaleX(1);
+  transition: transform 0.9s var(--ease-out-expo) 0.1s;
+}
+
+/* Interchange: the line segment draws on arrival */
+html.js .station .seg-fill {
+  transform: scaleY(0);
+  transform-origin: 0 0;
+}
+html.js .station.arrived .seg-fill {
+  transform: scaleY(1);
+  transition: transform 1.5s var(--ease-out-expo) 0.2s;
+}
+
+/* Cargo bay doors — open when the bay arrives; absent without JS */
+.bay {
+  position: relative;
+  overflow: hidden;
+}
+.bay-door {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, var(--hull), #0b1020);
+  border-bottom: 2px solid var(--amber);
+  transform: translateY(-101%);
+}
+html.js .station:not(.arrived) .bay-door {
+  transform: translateY(0);
+}
+html.js .station.arrived .bay-door {
+  transform: translateY(-101%);
+  transition: transform 0.9s var(--ease-out-expo) var(--d, 0ms);
+}
+
+/* ------- Boarding (hero load — the only load animation) ------- */
+.boarding > * {
+  opacity: 0;
+  animation: board-in 0.65s var(--ease-out-expo) forwards;
+}
+.boarding > *:nth-child(1) { animation-delay: 0.05s; }
+.boarding > *:nth-child(2) { animation-delay: 0.18s; }
+.boarding > *:nth-child(3) { animation-delay: 0.31s; }
+.boarding > *:nth-child(4) { animation-delay: 0.44s; }
+.boarding > *:nth-child(5) { animation-delay: 0.57s; }
+@keyframes board-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll cue */
+.cue-tick {
+  display: inline-block;
+  width: 1px;
+  height: 1.6rem;
+  background: var(--amber);
+  animation: fall 1.8s var(--ease-out-expo) infinite;
+}
+@keyframes fall {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
+/* Ship cursor — the cursor is the ship (fine pointers, motion allowed).
+   Two invisible cursor values: ShipCursor alternates between them when the
+   pointer re-enters the window, because Chromium only repaints the cursor
+   when the computed value actually changes — re-applying the same `none`
+   after a window exit leaves the stale native arrow visible. */
+html.cursor-ship,
+html.cursor-ship * {
+  cursor: none !important;
+}
+html.cursor-ship-alt,
+html.cursor-ship-alt * {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=") 0 0, none !important;
+}
+.ship-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+  display: none;
+}
+.ship-cursor svg {
+  transform: translate(-12px, -1px) rotate(-45deg);
+  transform-origin: 12px 1px;
+  transition: transform 0.15s var(--ease-out-expo);
+}
+.ship-cursor.down svg {
+  transform: translate(-12px, -1px) rotate(-45deg) scale(0.92);
+}
+
+/* Route rail ship marker */
+.rail-ship {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid var(--amber);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 6px rgba(255, 180, 84, 0.8));
+}
+
+/* ------- Reduced motion: the complete site, final states only ------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  html.js .station .st,
+  html.js .station .st-dock {
+    opacity: 1;
+    transform: none;
+  }
+  html.js .station .eyebrow::after {
+    transform: scaleX(1);
+  }
+  html.js .station .seg-fill {
+    transform: scaleY(1);
+  }
+  html.js .station:not(.arrived) .bay-door,
+  html.js .station.arrived .bay-door {
+    transform: translateY(-101%);
+    transition: none;
+  }
+  .boarding > * {
+    animation: none;
+    opacity: 1;
+  }
+  .cue-tick,
+  .blink-dot::before {
+    animation: none;
+  }
 }
