@@ -56,7 +56,7 @@ export default function Hero() {
             Email
           </a>
           <a
-            href="/caden_sun_resume.pdf"
+            href="/caden_sun_resume_public.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="link-underline transition-colors hover:text-amber"
