@@ -26,6 +26,17 @@ const roles: Role[] = [
     tags: ["Python", "LangGraph", "AWS", "RAG"],
   },
   {
+    role: "Research Assistant",
+    company: "Professor Jimmy Lin",
+    anchorId: "role-research",
+    logo: "/logos/University-of-Waterloo-Logo-Vector.svg-.png",
+    tileClass: "h-16 w-40 bg-white",
+    dates: "June 2026 — Present",
+    description:
+      "Testing and validating multi-stage retrieval and LLM reranking systems on TREC benchmarks.",
+    tags: ["Python", "BM25", "LLM Reranking", "TREC"],
+  },
+  {
     role: "ML Engineer",
     company: "Wat Street",
     anchorId: "role-watstreet",
