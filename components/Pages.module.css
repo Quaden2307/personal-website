@@ -1,0 +1,630 @@
+/*
+  A page of the notebook. Sizes are in container units of the page, so everything
+  scales with the page and always fits it. --rule is the line spacing of the paper;
+  every line of writing and every gap is a whole number of rules, so the writing
+  sits on the lines.
+*/
+.paper,
+.cover {
+  position: absolute;
+  inset: 0;
+}
+
+/* Punched holes along the spine edge, in step with the rings (same 26px pitch, from 2% down). */
+.paper::before,
+.cover::before {
+  content: "";
+  position: absolute;
+  top: 2%;
+  bottom: 2%;
+  width: 20px;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='26'%3E%3Ccircle cx='10' cy='13' r='4.5' fill='%23e3d3b4'/%3E%3C/svg%3E") center top / 20px 26px repeat-y;
+}
+
+.paper[data-side="right"]::before,
+.cover[data-side="right"]::before {
+  left: 6px;
+}
+
+.paper[data-side="left"]::before,
+.cover[data-side="left"]::before {
+  right: 6px;
+}
+
+.sheet {
+  --fs: min(var(--fs-h, 2.75cqh), 4.3cqw);
+  --rule: calc(var(--fs) * 1.6);
+  /* The unruled band at the top of the page, where the title is written. */
+  --top: calc(var(--rule) * 2.5);
+  /* The rules sit a little high in each line, so the handwriting rests on them. */
+  --rules-at: calc(var(--top) - var(--fs) * 0.3);
+  --margin-x: 15cqw;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--top) 7cqw var(--rule) calc(var(--margin-x) + 3.5cqw);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: var(--fs);
+  line-height: var(--rule);
+  /* The red margin line, and the blue ruled lines starting below the top margin. */
+  background-image:
+    linear-gradient(var(--margin-line), var(--margin-line)), /* taste-skill-ignore: one flat colour, the margin line */
+    repeating-linear-gradient(to bottom, transparent 0 calc(var(--rule) - 1px), var(--rule-line) calc(var(--rule) - 1px) var(--rule)); /* taste-skill-ignore: ruled notebook paper, the owner's brief */
+  background-position:
+    var(--margin-x) 0,
+    0 var(--rules-at);
+  background-size:
+    2px 100%,
+    100% calc(100% - var(--rules-at));
+  background-repeat: no-repeat;
+}
+
+/* Whole-pixel rules draw as crisp single lines instead of blurring across two pixel rows. */
+@supports (width: round(1.5px, 1px)) {
+  .sheet {
+    --rule: round(calc(var(--fs) * 1.6), 1px);
+    --rules-at: round(calc(var(--top) - var(--fs) * 0.3), 1px);
+  }
+}
+
+.paper[data-side="left"] .sheet {
+  padding-right: 9cqw;
+  padding-left: calc(var(--margin-x) + 3.5cqw);
+}
+
+.sheet > * {
+  margin: 0;
+}
+
+/* ---------- Writing ---------- */
+
+/* The page title, written in marker in the unruled band at the top. */
+.title {
+  position: absolute;
+  top: calc(var(--rule) * 0.55);
+  left: calc(var(--margin-x) + 3.5cqw);
+  right: 7cqw;
+  font-family: var(--marker);
+  font-size: calc(var(--fs) * 1.8);
+  font-weight: 400;
+  line-height: calc(var(--rule) * 1.5);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* A role or project name, in marker on one line of the paper. */
+.heading {
+  font-family: var(--marker);
+  font-size: calc(var(--fs) * 1.3);
+  font-weight: 400;
+  line-height: var(--rule);
+  text-wrap: balance;
+}
+
+.meta {
+  color: var(--muted);
+}
+
+.para {
+  margin-top: var(--rule) !important;
+}
+
+/* The first writing on a page starts on the first line. */
+.title + .para,
+.title + .heading,
+.title + .toc {
+  margin-top: 0 !important;
+}
+
+.para mark {
+  padding: 0 0.12em;
+  background-color: var(--highlight);
+  color: inherit;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.tools {
+  margin-top: var(--rule) !important;
+  color: var(--muted);
+}
+
+.sheet a {
+  color: var(--accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.16em;
+  /* A bigger target without moving the writing off its line. */
+  padding-block: 0.35em;
+  margin-block: -0.35em;
+}
+
+.sheet a:hover {
+  text-decoration-thickness: 0.12em;
+}
+
+.logoLine {
+  display: flex;
+  align-items: center;
+  height: calc(var(--rule) * 2);
+  margin-top: auto !important;
+}
+
+.logo {
+  width: auto;
+  height: calc(var(--rule) * 1.05);
+  mix-blend-mode: multiply;
+}
+
+.logoSquare {
+  height: calc(var(--rule) * 1.7);
+}
+
+/* ---------- Facts and links ---------- */
+
+.facts {
+  display: grid;
+  margin-top: var(--rule) !important;
+}
+
+.facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.2em;
+  margin-top: var(--rule) !important;
+}
+
+/* ---------- A taped-in picture, a whole number of lines tall ---------- */
+
+.taped {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: calc(var(--rule) * var(--rows));
+  margin-top: var(--rule) !important;
+}
+
+.taped > img,
+.taped > div {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  padding: 0.4em;
+  background-color: var(--cap);
+  object-fit: contain;
+  transform: rotate(var(--tilt));
+}
+
+/* A strip of masking tape across the top edge. */
+.taped::after {
+  content: "";
+  position: absolute;
+  top: -0.45em;
+  left: 50%;
+  width: 26%;
+  height: 1.05em;
+  background-color: var(--tape);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+/* The photo on the About page, taped in under the writing. */
+.portrait {
+  --rows: 9;
+  --tilt: 2deg;
+}
+
+/* ---------- A few snapshots taped in under a note ---------- */
+
+.album {
+  display: grid;
+  gap: calc(var(--rule) * 0.25);
+  margin-top: var(--rule) !important;
+}
+
+/* A note in the margin, with an arrow down to what it is about. */
+.scribble {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25em;
+  line-height: var(--rule);
+  transform: rotate(-1.5deg);
+  transform-origin: 0 100%;
+}
+
+.scribble svg {
+  flex: none;
+  width: 1.7em;
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateY(0.55em);
+}
+
+.albumRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8em;
+  padding-inline: 0.3em;
+}
+
+.snap {
+  position: relative;
+  padding: 0.3em;
+  background-color: var(--cap);
+  transform: rotate(var(--tilt));
+}
+
+.snap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* A strip of masking tape across each one's top edge. */
+.snap::after {
+  content: "";
+  position: absolute;
+  top: -0.4em;
+  left: 50%;
+  width: 40%;
+  height: 0.9em;
+  background-color: var(--tape);
+  transform: translateX(-50%) rotate(-4deg);
+}
+
+/* A paper someone else wrote, printed and taped in; the whole of it is the link. */
+.sheet a.reading {
+  position: relative;
+  display: grid;
+  gap: 0.15em;
+  margin: 0 0.4em;
+  padding: 0.6em 0.85em 0.7em;
+  background-color: var(--cap);
+  color: var(--ink);
+  font-family: var(--print);
+  font-size: 0.72em;
+  line-height: 1.3;
+  text-decoration: none;
+  transform: rotate(1deg);
+}
+
+.reading::after {
+  content: "";
+  position: absolute;
+  top: -0.5em;
+  left: 50%;
+  width: 22%;
+  height: 1.1em;
+  background-color: var(--tape);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+.readingTitle {
+  font-weight: 500;
+}
+
+.reading:hover .readingTitle,
+.reading:focus-visible .readingTitle {
+  text-decoration: underline;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.16em;
+}
+
+.readingSource {
+  color: var(--muted);
+}
+
+/* ---------- Contents ---------- */
+
+.toc {
+  display: grid;
+  gap: var(--rule);
+  padding: 0;
+  list-style: none;
+}
+
+.tocEntry {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  line-height: var(--rule);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tocTitle {
+  font-family: var(--marker);
+  font-size: calc(var(--fs) * 1.3);
+}
+
+/* A dotted leader from the title to its page number. */
+.tocEntry::after {
+  content: "";
+  order: 1;
+  flex: 1;
+  height: 0;
+  border-bottom: 3px dotted var(--rule-line);
+}
+
+.tocPage {
+  order: 2;
+  font-variant-numeric: tabular-nums;
+}
+
+.tocEntry:hover .tocTitle,
+.tocEntry:focus-visible .tocTitle {
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.15em;
+}
+
+/* ---------- Covers ---------- */
+
+.cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqh;
+  padding: 10cqh 9cqw 12cqh 14cqw;
+  color: var(--ink);
+}
+
+/* The exercise-book label: printed field names, the entries written in marker. */
+.label {
+  display: grid;
+  gap: 2.6cqh;
+  width: 100%;
+  padding: 4.5cqh 6cqw 5cqh;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background-color: var(--paper);
+}
+
+.labelRow {
+  display: grid;
+  grid-template-columns: 16cqw minmax(0, 1fr);
+  align-items: baseline;
+  padding-bottom: 0.6cqh;
+  border-bottom: 2px solid var(--rule-line);
+}
+
+/* On a narrow single page the field names sit above the entries, so each entry keeps to one line. */
+@container (max-aspect-ratio: 5 / 8) {
+  .labelRow {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.6cqh;
+  }
+}
+
+.field {
+  color: var(--muted);
+  font-family: var(--print);
+  font-size: 1.9cqh;
+  font-weight: 500;
+}
+
+.entryName {
+  margin: 0;
+  font-family: var(--marker);
+  font-size: 7.5cqh;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.entry {
+  font-family: var(--marker);
+  font-size: 3.4cqh;
+  line-height: 1.15;
+}
+
+.coverNote {
+  margin: 0;
+  font-family: var(--hand);
+  font-size: 2.8cqh;
+}
+
+/* "Click to open", written small at the head of the front cover and run over with the highlighter. */
+.coverOpen {
+  position: absolute;
+  top: 7cqh;
+  right: 9cqw;
+  left: 14cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  margin: 0;
+  font-family: var(--hand);
+  font-size: 2.5cqh;
+}
+
+.openPointer,
+.openTouch {
+  padding: 0 0.15em;
+  background-color: var(--sky);
+}
+
+.openTouch {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .openPointer {
+    display: none;
+  }
+
+  .openTouch {
+    display: inline;
+  }
+}
+
+.openArrow {
+  width: 1.7em;
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Without script the pages are stacked and scroll, so there is nothing to open. */
+:global(html:not(.js)) .coverOpen {
+  display: none;
+}
+
+/* The back cover: how to reach Caden, on a label like the front's, and a way back to the start. Holes on the right. */
+.backCover {
+  padding: 9cqh 14cqw 8cqh 9cqw;
+}
+
+.cover a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.16em;
+}
+
+/* The ways to get in touch, written in pen; a long address may break anywhere. */
+.contact {
+  min-width: 0;
+  font-family: var(--hand);
+  font-size: 3cqh;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.cover .contact {
+  color: var(--accent);
+}
+
+/* The one button on the cover: it turns the book back to the front. */
+.cover .restart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  min-height: 44px;
+  padding: 0.55em 1.2em;
+  border-radius: 10px;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--print);
+  font-size: max(14px, 2.1cqh);
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease-out),
+    transform var(--t-press) var(--ease-out);
+}
+
+.cover .restart:hover {
+  background-color: var(--accent-deep);
+}
+
+.cover .restart:active {
+  transform: scale(0.97);
+}
+
+.restart svg {
+  width: 1.15em;
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Printed page number, and the folded corner that turns the page ---------- */
+
+.folio {
+  position: absolute;
+  bottom: 3.4cqh;
+  color: var(--muted);
+  font-family: var(--print);
+  font-size: 1.7cqh;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page numbers sit in the outer corners. */
+.paper[data-side="right"] .folio {
+  right: 7cqw;
+}
+
+.paper[data-side="left"] .folio {
+  left: 7cqw;
+}
+
+.corner {
+  position: absolute;
+  bottom: 0;
+  width: max(44px, 9cqw);
+  height: max(44px, 9cqw);
+  padding: 0;
+  border: 0;
+  background-color: var(--paper-deep);
+  cursor: pointer;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+[data-side="right"] > .corner {
+  right: 0;
+  transform-origin: 100% 100%;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+[data-side="left"] > .corner {
+  left: 0;
+  transform-origin: 0 100%;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.cover .corner {
+  background-color: var(--cover-deep);
+}
+
+.corner:hover,
+.corner:focus-visible {
+  transform: scale(1.3);
+}
+
+.corner:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corner {
+    transition: none;
+  }
+}

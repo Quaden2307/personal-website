@@ -1,0 +1,219 @@
+/*
+  The desk and the notebook on it. One screen, no scrolling: the book is sized to
+  the window, and pages turn instead of scrolling.
+*/
+.stage {
+  --ratio: 0.72;
+  /* The room kept free beside the book: the pencil case lies on its left, the cat on its right. */
+  --side: clamp(180px, 12.5vw, 240px);
+  --page-h: min(100dvh - 104px, (100vw - 2 * var(--side)) / 2 / var(--ratio));
+  --page-w: calc(var(--page-h) * var(--ratio));
+  --book-w: calc(var(--page-w) * 2);
+  /* The book stays centred unless that leaves the pencil case too little room; then it moves right. */
+  --shift: max(0px, var(--side) - (100vw - var(--book-w)) / 2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 100dvh;
+  padding: 72px 16px 24px;
+  /* clip, not just hidden: a hidden box can still be scrolled, by a #chapter link for one. */
+  overflow: hidden;
+  overflow: clip;
+}
+
+/* The two-page window: the spread, or the closed book centred in it. */
+.window {
+  position: relative;
+  left: var(--shift);
+  width: var(--book-w);
+  height: var(--page-h);
+}
+
+.book {
+  position: relative;
+  width: calc(var(--page-w) * 2);
+  height: var(--page-h);
+  perspective: 2600px;
+}
+
+.book[data-show="right"] {
+  transform: translate3d(calc(var(--page-w) * -0.5), 0, 0);
+}
+
+.book[data-show="left"] {
+  transform: translate3d(calc(var(--page-w) * 0.5), 0, 0);
+}
+
+/* A leaf hangs from the spine and turns over to the left. */
+.leaf {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: calc(var(--n) - var(--i));
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+}
+
+.leaf[data-flipped] {
+  transform: rotateY(-180deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  overflow: clip;
+  container-type: size;
+  background-color: var(--paper);
+  cursor: pointer;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.front {
+  border-radius: 0 10px 10px 0;
+}
+
+.back {
+  border-radius: 10px 0 0 10px;
+  transform: rotateY(180deg);
+}
+
+.coverFace {
+  background-color: var(--cover);
+}
+
+/* The spiral binding, drawn over the spine, in step with the holes punched in every page. */
+.rings {
+  position: absolute;
+  z-index: 100;
+  top: 2%;
+  bottom: 2%;
+  left: 50%;
+  width: 34px;
+  margin-left: -17px;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26'%3E%3Crect x='3' y='9.5' width='28' height='7' rx='3.5' fill='none' stroke='%23463829' stroke-width='3'/%3E%3C/svg%3E") center top / 34px 26px repeat-y;
+}
+
+/* Pages turn and the book slides only once the first layout is in place. */
+.stage[data-ready] .book {
+  transition: transform 720ms var(--ease-in-out);
+}
+
+.stage[data-ready] .leaf {
+  transition: transform 820ms var(--ease-in-out);
+}
+
+.book[data-instant],
+.book[data-instant] .leaf {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage[data-ready] .book,
+  .stage[data-ready] .leaf {
+    transition: none;
+  }
+}
+
+/* Narrower wide screens keep room for the pencil case only; the cat shows if the other side is wide enough anyway. */
+@media (max-width: 1279px) {
+  .stage {
+    --page-h: min(100dvh - 104px, (100vw - 32px - var(--side)) / 2 / var(--ratio));
+  }
+}
+
+/* One page at a time: narrow, tall or short screens. The book slides behind a one-page window. */
+@media not all and (min-width: 900px) and (min-height: 560px) and (orientation: landscape) {
+  .stage {
+    /* No taller than about twice its width, or the writing would not fit across. */
+    --page-h: min(100dvh - 96px, (100vw - 16px - var(--side)) / 0.52);
+    --page-w: min(100vw - 16px - var(--side), var(--page-h) * 0.74);
+    --book-w: var(--page-w);
+    /* Narrower pages wrap more lines, so the writing is a little smaller here. */
+    --fs-h: 2.45cqh;
+    padding-top: 64px;
+  }
+
+  .window {
+    width: var(--page-w);
+    overflow: hidden;
+    overflow: clip;
+  }
+
+  .book[data-show="right"] {
+    transform: translate3d(calc(var(--page-w) * -1), 0, 0);
+  }
+
+  .book[data-show="left"] {
+    transform: none;
+  }
+}
+
+/* A phone has no room beside the page: the stationery lies in a strip under it instead. */
+@media (max-width: 599px) {
+  .stage {
+    --side: 0px;
+    --page-h: calc(100dvh - 156px);
+    --page-w: min(100vw - 28px, var(--page-h) * 0.74);
+    padding-bottom: 0;
+  }
+}
+
+/* A phone held sideways is too short for a legible page: the page keeps a readable height and the stage scrolls. */
+@media (max-height: 479px) {
+  .stage {
+    --page-h: 520px;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+
+  .window {
+    flex-shrink: 0;
+  }
+}
+
+/* Without script the notebook is simply its pages, one after another. */
+:global(html:not(.js)) .stage {
+  display: block;
+  height: auto;
+  overflow: visible;
+}
+
+:global(html:not(.js)) .window,
+:global(html:not(.js)) .book {
+  left: auto;
+  width: auto;
+  height: auto;
+  transform: none;
+  perspective: none;
+}
+
+:global(html:not(.js)) .leaf {
+  position: static;
+  display: contents;
+  transform: none;
+}
+
+:global(html:not(.js)) .face {
+  position: relative;
+  width: min(100%, 34rem);
+  height: auto;
+  aspect-ratio: 0.72;
+  margin: 0 auto 24px;
+  border-radius: 10px;
+  transform: none;
+  cursor: auto;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+}
+
+:global(html:not(.js)) .rings {
+  display: none;
+}

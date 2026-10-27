@@ -1,0 +1,577 @@
+/*
+  The other side of the book: a cat lying on the desk, batting at a ball of yarn that hangs
+  from the top of the screen; the yarn can be picked up and thrown. Like the desk on the
+  left, this side runs from the book's right edge (--book-w and --shift come from the
+  stage) to the edge of the screen and from top to bottom. The cat only shows when it is
+  at least 180px across.
+*/
+.zone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: calc(50% + var(--book-w) / 2 + var(--shift));
+  container-type: inline-size;
+}
+
+.scene {
+  display: none;
+}
+
+@container (min-width: 180px) {
+  .scene {
+    display: block;
+  }
+}
+
+/* A phone held upright has no room beside the page. */
+@media (max-width: 599px) {
+  .zone {
+    display: none;
+  }
+}
+
+/* A phone held sideways scrolls: the cat lies at the foot of the page, not of the screen. */
+@media (min-width: 600px) and (max-height: 479px) {
+  .zone {
+    bottom: auto;
+    height: calc(var(--page-h) + 88px);
+    overflow: clip;
+  }
+}
+
+/* Without script the pages are stacked and scroll, and the cat stays out of the way. */
+:global(html:not(.js)) .zone {
+  display: none;
+}
+
+/* ---------- The scene (the zone above is placed by the stage) ---------- */
+
+/*
+  The scene fills the zone and is its own size container, so its parts can be placed from
+  the zone's width (cqw) and height (cqh). The cat lies at the foot; the yarn hangs from
+  above the top edge, so the string's length takes up whatever height the screen has.
+  Everything is placed from the cat's width --cw and its drawing unit --u (1/190 of it):
+  --cl is the cat's left edge, --cx and --by the ball's centre (from the left, and up from
+  the bottom). The cat fills the zone, 165px to 230px wide, 15px off the book (its whiskers
+  come 3px closer as it nods). The ball rests on the cat's raised paw, so --reach is the
+  paw's tip in the drawing plus the ball's radius, and the ball stays 12px clear of the
+  book even mid-swing.
+*/
+.scene {
+  --cw: clamp(165px, 100cqw - 17px, 230px);
+  --u: calc(var(--cw) / 190);
+  --floor: 22px;
+  --r: 16px;
+  --reach-x: calc(48.14 * var(--u) - 11.31px);
+  --reach-y: calc(99.96 * var(--u) + 11.31px);
+  --cl: max(15px, (100cqw - var(--cw)) / 2 + 4px);
+  --cx: calc(var(--cl) + var(--reach-x));
+  --by: calc(var(--floor) + var(--reach-y));
+  --beat: 4.8s;
+  --sine: cubic-bezier(0.37, 0, 0.63, 1);
+  position: absolute;
+  inset: 0;
+  container: cat / size;
+  pointer-events: none;
+}
+
+/* ---------- The cat ---------- */
+
+/* The cat's box holds two drawings of it: lying down, and running (shown while it chases the ball). */
+.cat {
+  position: absolute;
+  left: var(--cl);
+  bottom: var(--floor);
+  width: var(--cw);
+  height: calc(106 * var(--u));
+}
+
+.lying,
+.runner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.runner {
+  display: none;
+}
+
+.scene[data-pose="run"] .lying {
+  display: none;
+}
+
+.scene[data-pose="run"] .runner {
+  display: block;
+}
+
+.fur {
+  fill: var(--cap);
+}
+
+.saddle {
+  fill: var(--cover);
+}
+
+.toes {
+  fill: none;
+  stroke: var(--cover-deep);
+  stroke-linecap: round;
+  stroke-width: 1.4;
+}
+
+.leg {
+  fill: none;
+  stroke: var(--cap);
+  stroke-linecap: round;
+  stroke-width: 14;
+}
+
+.pad,
+.nose {
+  fill: var(--note);
+}
+
+.tailFur,
+.tailTip {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 13;
+}
+
+.tailFur {
+  stroke: var(--case);
+}
+
+/* The last quarter of the tail, darker. */
+.tailTip {
+  stroke: var(--case-dark);
+  stroke-dasharray: 26 74;
+  stroke-dashoffset: 26;
+}
+
+.ear {
+  fill: var(--case-dark);
+}
+
+.earIn,
+.mask {
+  fill: var(--case);
+}
+
+.eye {
+  fill: var(--sky-deep);
+}
+
+.pupil {
+  fill: var(--case-dark);
+}
+
+.glint {
+  fill: var(--cap);
+}
+
+.whiskers {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.limb,
+.limbFar {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 12;
+}
+
+.limb {
+  stroke: var(--cap);
+}
+
+/* The legs on the far side, a shade darker. */
+.limbFar {
+  stroke: var(--paper-deep);
+}
+
+/* The moving parts turn about points in the drawing: the shoulder, the neck, the root of the tail. */
+.paw,
+.head,
+.eyes,
+.tail,
+.nearFore,
+.nearHind,
+.farFore,
+.farHind,
+.trunk {
+  transform-box: view-box;
+}
+
+/* Running: the legs swing from the shoulder and the hip, in diagonal pairs, and the body bobs. */
+.nearFore {
+  transform-origin: 68px 64px;
+}
+
+.nearHind {
+  transform-origin: 138px 62px;
+}
+
+.farFore {
+  transform-origin: 60px 62px;
+}
+
+.farHind {
+  transform-origin: 146px 58px;
+}
+
+.nearFore,
+.farHind {
+  animation: stride 0.3s var(--sine) infinite alternate;
+}
+
+.farFore,
+.nearHind {
+  animation: stride 0.3s var(--sine) infinite alternate-reverse;
+}
+
+.trunk {
+  animation: gallop 0.15s var(--sine) infinite alternate;
+}
+
+.paw {
+  transform-origin: 62px 78px;
+  animation: bat var(--beat) linear infinite;
+}
+
+.head {
+  transform-origin: 30px 74px;
+  transform: rotate(-8deg);
+  animation: bob calc(var(--beat) / 2) var(--sine) infinite alternate;
+}
+
+.eyes {
+  animation: follow calc(var(--beat) / 2) var(--sine) infinite alternate;
+}
+
+.tail {
+  transform-origin: 156px 101px;
+  animation: swish 3.4s var(--sine) infinite alternate;
+}
+
+/* ---------- The yarn ---------- */
+
+/*
+  The string and the ball swing together about a point just above the screen. Whatever the
+  string's length, the ball moves 6px each way: --yarn-swing is the angle for that,
+  registered so that it is worked out again when the screen changes size.
+*/
+@property --yarn-swing {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.hang {
+  --yarn-swing: atan2(6px, 100cqh + 12px - var(--by));
+  position: absolute;
+  top: -12px;
+  bottom: calc(var(--by) - var(--r));
+  left: var(--cx);
+  width: 0;
+  transform-origin: 0 0;
+  animation: sway calc(var(--beat) / 2) var(--sine) infinite alternate;
+}
+
+.string {
+  position: absolute;
+  top: 0;
+  bottom: calc(2 * var(--r));
+  left: -1px;
+  width: 2px;
+  background-color: var(--yarn-deep);
+}
+
+/* The ball, to pick up and throw (lib/yarn.ts). Lifted like the stationery when pointed at. */
+.yarn {
+  position: absolute;
+  left: -22px;
+  bottom: -6px;
+  width: 44px;
+  height: 44px;
+  padding: 6px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  transition: transform var(--t-hover) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.yarn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  transform: scale(1.08);
+}
+
+@media (hover: hover) {
+  .yarn:hover {
+    transform: scale(1.08);
+  }
+}
+
+.yarn:active {
+  cursor: grabbing;
+}
+
+.ball {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.ballFill {
+  fill: var(--note);
+}
+
+.strand {
+  fill: none;
+  stroke: var(--yarn-deep);
+  stroke-linecap: round;
+  stroke-width: 1.6;
+}
+
+/*
+  In play the script moves the cat and draws the ball and its thread over the whole desk,
+  above everything on it; the resting yarn steps aside but keeps the keyboard focus.
+*/
+.scene[data-live] .hang,
+.scene[data-live] .paw,
+.scene[data-live] .head,
+.scene[data-live] .eyes {
+  animation: none;
+}
+
+.scene[data-live] .hang {
+  opacity: 0;
+}
+
+.scene[data-live] .yarn {
+  pointer-events: none;
+}
+
+.scene[data-live] .cat {
+  transform-origin: 50% 100%;
+}
+
+.play {
+  position: absolute;
+  z-index: 8;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.thread {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.threadLine {
+  fill: none;
+  stroke: var(--yarn-deep);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.playBall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.playBall[data-held] {
+  cursor: grabbing;
+}
+
+/* ---------- The note ---------- */
+
+/* "Throw me around!", in marker on the desk beside the yarn, with an arrow to the ball. */
+.hint {
+  position: absolute;
+  left: calc(var(--cx) + 24px);
+  bottom: calc(var(--by) + 22px);
+  max-width: calc(100cqw - var(--cx) - 36px);
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--marker);
+  font-size: 22px;
+  line-height: 1;
+  text-wrap: balance;
+  transform: rotate(-6deg);
+  transform-origin: 0 100%;
+  transition: opacity 300ms var(--ease-out);
+}
+
+.last {
+  white-space: nowrap;
+}
+
+/* The drawn "!", in the marker's weight, sitting on the line like a letter. */
+.bang {
+  display: inline-block;
+  vertical-align: baseline;
+  width: 0.34em;
+  height: 0.8em;
+  margin-left: 0.05em;
+  fill: currentColor;
+}
+
+.hintArrow {
+  position: absolute;
+  left: calc(var(--cx) + 10px);
+  bottom: calc(var(--by) + 6px);
+  width: 26px;
+  height: 21px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  transition: opacity 300ms var(--ease-out);
+}
+
+/* While the yarn is in play the note steps aside: its arrow would point at nothing. */
+.scene[data-live] .hint,
+.scene[data-live] .hintArrow {
+  opacity: 0;
+}
+
+/* ---------- Motion ---------- */
+
+/*
+  One beat is a full swing. It starts with the ball at the right end of its swing, on the
+  paw; the paw pushes it off, drops back while it swings away, and reaches up to meet it as
+  it comes back. The head and the eyes follow the ball; the tail keeps its own time.
+*/
+@keyframes sway {
+  from {
+    transform: rotate(calc(-1 * var(--yarn-swing)));
+  }
+  to {
+    transform: rotate(var(--yarn-swing));
+  }
+}
+
+/* A keyframe's own timing function cannot come from a variable, so the curves are written out. */
+@keyframes bat {
+  0% {
+    transform: rotate(6deg);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  8% {
+    transform: rotate(4deg) translateY(-1px);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  30% {
+    transform: rotate(-3deg) translateY(9px);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  62% {
+    transform: rotate(-5deg) translateY(10px);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  84% {
+    transform: rotate(1deg) translateY(3px);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  100% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes stride {
+  from {
+    transform: rotate(-28deg);
+  }
+  to {
+    transform: rotate(28deg);
+  }
+}
+
+@keyframes gallop {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes bob {
+  from {
+    transform: rotate(-6.5deg);
+  }
+  to {
+    transform: rotate(-9.5deg);
+  }
+}
+
+@keyframes follow {
+  from {
+    transform: translateX(0.9px);
+  }
+  to {
+    transform: translateX(-0.9px);
+  }
+}
+
+@keyframes swish {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-9deg);
+  }
+}
+
+/* No motion: the yarn hangs still on the cat's paw, and does not lift when pointed at. */
+@media (prefers-reduced-motion: reduce) {
+  .paw,
+  .head,
+  .eyes,
+  .tail,
+  .hang,
+  .nearFore,
+  .nearHind,
+  .farFore,
+  .farHind,
+  .trunk {
+    animation: none;
+  }
+
+  .yarn,
+  .hint,
+  .hintArrow {
+    transition: none;
+  }
+
+  .yarn:hover,
+  .yarn:focus-visible,
+  .yarn:active {
+    transform: none;
+  }
+}

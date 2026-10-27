@@ -2,354 +2,165 @@
 @tailwind components;
 @tailwind utilities;
 
-/* OUTBOUND — one metaphor, one ambient system.
-   Tokens: void ground, hull panels, hairline rules, starlight text,
-   dust muted, signal amber accent, ion blue in trace doses. */
+/*
+  Fonts. scripts/fetch-fonts.mjs downloads these into public/fonts before every dev
+  run and build; their licences bar redistribution through a public repository, so
+  they are not committed. Patrick Hand comes from next/font (app/layout.tsx).
+  - GingerInk by yebhutype (free for personal, non-commercial use): the marker.
+  - General Sans (Fontshare, ITF Free Font License): the notebook's printed type.
+*/
+@font-face {
+  font-family: "GingerInk";
+  src: url("/fonts/GingerInk.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/GeneralSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("/fonts/GeneralSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --void: #070a14;
-  --hull: #0e1424;
-  --hairline: #212c4e;
-  --starlight: #eaedf6;
-  --dust: #96a0c2;
-  --amber: #ffb454;
-  --ion: #7fa7ff;
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* The desk, the paper, the ink. Taken from the cat classifier. */
+  --ground: #e3d3b4;
+  --ground-deep: #d9c39a;
+  --cover: #cdb487;
+  --cover-deep: #b99d6c;
+  --paper: #fbf6eb;
+  --paper-deep: #efe3c8;
+  --cap: #fffdf6;
+  --ink: #463829;
+  --muted: #5f4f3b;
+  --accent: #2e4a66;
+  --accent-deep: #233a52;
+  --accent-ink: #fbf6eb;
+  --sky: #a8c8e4;
+  --rule-line: rgba(127, 163, 200, 0.55);
+  --margin-line: rgba(222, 154, 143, 0.85);
+  --highlight: rgba(168, 200, 228, 0.75);
+  --tape: rgba(198, 154, 98, 0.32);
+  /* The stationery on the desk: the pencil case, the sticky note (the margin pink, opaque),
+     pencil lead and paper clips, the highlighter's cap. The cat's yarn is the sticky note's
+     pink, with a darker rose for its string and strands. */
+  --case: #7a5c43;
+  --case-dark: #3d2e21;
+  --note: #df9f95;
+  --graphite: #4a4846;
+  --sky-deep: #7fa3c8;
+  --yarn-deep: #b97a78;
+
+  /* Three hands: the marker, the pen, and the notebook's own printing. */
+  --marker: "GingerInk", var(--font-hand, "Patrick Hand"), cursive;
+  --hand: var(--font-hand, "Patrick Hand"), "Segoe Print", "Bradley Hand", cursive;
+  --print: "General Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
 }
 
 html {
-  scroll-behavior: smooth;
-  color-scheme: dark;
+  background-color: var(--ground);
+  color: var(--ink);
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
-html,
 body {
-  background: var(--void);
-  color: var(--starlight);
-  font-family: var(--font-archivo), system-ui, sans-serif;
+  margin: 0;
+  background-color: var(--ground);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 1rem;
+  line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle film grain — the one texture kept from the old site */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.028;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+/* With script the notebook is the whole screen: nothing scrolls, pages turn instead. */
+.js,
+.js body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
-::selection {
-  background: rgba(255, 180, 84, 0.28);
-  color: #ffffff;
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 400;
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+p {
+  margin: 0;
 }
-::-webkit-scrollbar-track {
-  background: var(--void);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--hairline);
-  border-radius: 8px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--dust);
+
+a {
+  color: var(--accent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--amber);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
-/* ------- Type voices ------- */
-
-/* Station signage — Archivo at 125% width, caps */
-.sign {
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-stretch: 125%;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  line-height: 1.08;
-  text-wrap: balance;
+::selection {
+  background-color: var(--sky);
+  color: var(--ink);
 }
 
-/* Departure-board rows — telemetry layer */
-.board {
-  display: grid;
-  grid-template-columns: 6.5rem 1fr;
-  row-gap: 0.45rem;
-  font-family: var(--font-plex), ui-monospace, monospace;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.board dt {
-  color: var(--dust);
-  opacity: 0.7;
-}
-.board dd {
-  margin: 0;
-  color: var(--starlight);
-}
-.board dd a {
-  color: inherit;
-}
-.blink-dot::before {
-  content: "";
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--amber);
-  margin-right: 0.55rem;
-  vertical-align: 1px;
-  animation: blink 1.6s steps(2, start) infinite;
-}
-@keyframes blink {
-  50% {
-    opacity: 0.25;
-  }
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-/* Instrument chips — switches, not stickers */
-.chip {
-  display: inline-block;
-  border: 1px solid var(--hairline);
-  border-radius: 2px;
-  padding: 0.2rem 0.55rem;
-  font-family: var(--font-plex), ui-monospace, monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  color: var(--dust);
-  transition: color 0.25s, border-color 0.25s, background 0.25s;
-}
-.chip:hover {
-  color: var(--amber);
-  border-color: var(--amber);
-  background: rgba(255, 180, 84, 0.08);
+.notebook:focus {
+  outline: none;
 }
 
-/* Animated link underline (kept from the old site — it earns its place) */
-.link-underline {
-  position: relative;
-}
-.link-underline::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.4s var(--ease-out-expo);
-}
-.link-underline:hover::after,
-.link-underline.active::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* ------- Arrival choreography -------
-   Stations reveal when they enter the viewport: the eyebrow hairline
-   draws, then children marked .st dock in (stagger via --d).
-   All hidden states are gated on html.js so a no-JS visitor sees
-   everything; Choreo.tsx adds the class on mount. */
-
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-}
-.eyebrow::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: var(--hairline);
-}
-
-html.js .station .st {
-  opacity: 0;
-  transform: translateY(18px);
-}
-html.js .station .st-dock {
-  opacity: 0;
-  transform: translateX(28px);
-}
-html.js .station .eyebrow::after {
-  transform: scaleX(0);
-  transform-origin: 0 0;
-}
-html.js .station.arrived .st {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 0.7s var(--ease-out-expo) var(--d, 0ms),
-    transform 0.7s var(--ease-out-expo) var(--d, 0ms);
-}
-html.js .station.arrived .st-dock {
-  opacity: 1;
-  transform: translateX(0);
-  transition:
-    opacity 0.8s var(--ease-out-expo) var(--d, 0ms),
-    transform 0.8s var(--ease-out-expo) var(--d, 0ms);
-}
-html.js .station.arrived .eyebrow::after {
-  transform: scaleX(1);
-  transition: transform 0.9s var(--ease-out-expo) 0.1s;
-}
-
-/* Interchange: the line segment draws on arrival */
-html.js .station .seg-fill {
-  transform: scaleY(0);
-  transform-origin: 0 0;
-}
-html.js .station.arrived .seg-fill {
-  transform: scaleY(1);
-  transition: transform 1.5s var(--ease-out-expo) 0.2s;
-}
-
-/* Cargo bay doors — open when the bay arrives; absent without JS */
-.bay {
-  position: relative;
+.visually-hidden {
+  position: absolute !important;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
-.bay-door {
+
+.skip-link {
   position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(180deg, var(--hull), #0b1020);
-  border-bottom: 2px solid var(--amber);
-  transform: translateY(-101%);
-}
-html.js .station:not(.arrived) .bay-door {
-  transform: translateY(0);
-}
-html.js .station.arrived .bay-door {
-  transform: translateY(-101%);
-  transition: transform 0.9s var(--ease-out-expo) var(--d, 0ms);
+  z-index: 10;
+  left: 16px;
+  top: 12px;
+  padding: 12px 16px;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--print);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
 }
 
-/* ------- Boarding (hero load — the only load animation) ------- */
-.boarding > * {
-  opacity: 0;
-  animation: board-in 0.65s var(--ease-out-expo) forwards;
-}
-.boarding > *:nth-child(1) { animation-delay: 0.05s; }
-.boarding > *:nth-child(2) { animation-delay: 0.18s; }
-.boarding > *:nth-child(3) { animation-delay: 0.31s; }
-.boarding > *:nth-child(4) { animation-delay: 0.44s; }
-.boarding > *:nth-child(5) { animation-delay: 0.57s; }
-@keyframes board-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scroll cue */
-.cue-tick {
-  display: inline-block;
-  width: 1px;
-  height: 1.6rem;
-  background: var(--amber);
-  animation: fall 1.8s var(--ease-out-expo) infinite;
-}
-@keyframes fall {
-  0% {
-    transform: translateY(-8px);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(8px);
-    opacity: 0;
-  }
-}
-
-/* Ship cursor — the cursor is the ship (fine pointers, motion allowed).
-   Two invisible cursor values: ShipCursor alternates between them when the
-   pointer re-enters the window, because Chromium only repaints the cursor
-   when the computed value actually changes — re-applying the same `none`
-   after a window exit leaves the stale native arrow visible. */
-html.cursor-ship,
-html.cursor-ship * {
-  cursor: none !important;
-}
-html.cursor-ship-alt,
-html.cursor-ship-alt * {
-  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=") 0 0, none !important;
-}
-.ship-cursor {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 100;
-  pointer-events: none;
-  display: none;
-}
-.ship-cursor svg {
-  transform: translate(-12px, -1px) rotate(-45deg);
-  transform-origin: 12px 1px;
-  transition: transform 0.15s var(--ease-out-expo);
-}
-.ship-cursor.down svg {
-  transform: translate(-12px, -1px) rotate(-45deg) scale(0.92);
-}
-
-/* Route rail ship marker */
-.rail-ship {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 8px solid var(--amber);
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 0 6px rgba(255, 180, 84, 0.8));
-}
-
-/* ------- Reduced motion: the complete site, final states only ------- */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  html.js .station .st,
-  html.js .station .st-dock {
-    opacity: 1;
-    transform: none;
-  }
-  html.js .station .eyebrow::after {
-    transform: scaleX(1);
-  }
-  html.js .station .seg-fill {
-    transform: scaleY(1);
-  }
-  html.js .station:not(.arrived) .bay-door,
-  html.js .station.arrived .bay-door {
-    transform: translateY(-101%);
-    transition: none;
-  }
-  .boarding > * {
-    animation: none;
-    opacity: 1;
-  }
-  .cue-tick,
-  .blink-dot::before {
-    animation: none;
-  }
+.skip-link:focus-visible {
+  transform: none;
 }

@@ -1,0 +1,74 @@
+/* Sized in the page's rules (--rule comes from the sheet), so it keeps the writing on the lines. */
+.judge {
+  min-width: 0;
+  margin: var(--rule) 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.strip {
+  display: flex;
+  gap: 0.5em;
+  height: calc(var(--rule) * 4);
+}
+
+.thumb {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: 0.25em;
+  background-color: var(--cap);
+  cursor: pointer;
+  opacity: 0.55;
+  transition:
+    opacity var(--t-hover) var(--ease-out),
+    transform var(--t-hover) var(--ease-out);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb:hover {
+  opacity: 0.85;
+}
+
+/* The chosen cat is lifted out of the row: full colour, tilted. */
+.thumb:has(input:checked) {
+  opacity: 1;
+  transform: rotate(-2deg);
+}
+
+.thumb:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.verdicts {
+  margin: 0;
+  line-height: var(--rule);
+}
+
+.verdict {
+  display: none;
+}
+
+.verdict[data-i="0"],
+.judge:has(input[value="1"]:checked) .verdict[data-i="1"],
+.judge:has(input[value="2"]:checked) .verdict[data-i="2"],
+.judge:has(input[value="3"]:checked) .verdict[data-i="3"] {
+  display: inline;
+}
+
+.judge:has(input:checked:not([value="0"])) .verdict[data-i="0"] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb,
+  .thumb::after {
+    transition: none;
+  }
+}

@@ -34,6 +34,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# GingerInk and General Sans are downloaded at build time (their licences bar redistribution through a public repository)
+/public/fonts/
+
 # GitHub profile README staging copies (the live version lives in the Quaden2307 repo)
 github-profile/
 

@@ -1,0 +1,653 @@
+/*
+  The desk beside the notebook, with a pencil case spilled on it. On most screens it is
+  the strip on the left of the book (see "Beside the book" below). A phone held upright
+  has no room beside the page, so there the desk is a strip after the book in the stage's
+  column, which runs to the bottom of the screen; nothing on it can overlap the book, and
+  the case and the sticky note run off the bottom edge, as if the desk goes on.
+
+  In that strip everything is placed from --c, a point under the middle of the book that
+  moves left when the screen is too narrow for the whole spill, so the sticky note stays
+  on screen and the case slides off the left edge instead.
+*/
+.desk {
+  --c: min(50%, 100% - 460px);
+  --pt: 26px; /* pencil thickness */
+  --cone: 42px; /* sharpened end */
+  --pfs: 14px; /* the address stamped on the pencil */
+  position: relative;
+  flex: 1 0 96px;
+  align-self: stretch;
+  margin-inline: -16px;
+}
+
+/* Everything on the desk lies at its own angle; things that are not links ignore the pointer. */
+.case,
+.thing,
+.obj {
+  position: absolute;
+  display: block;
+  transform: rotate(var(--r, 0deg));
+}
+
+.case,
+.thing {
+  pointer-events: none;
+}
+
+/* ---------- The pencil case ---------- */
+
+.case {
+  --r: -3deg;
+  top: 0;
+  left: calc(var(--c) - 450px);
+  width: 340px;
+  height: 130px;
+}
+
+/* The lining shows in the open zip; what is still inside lies on it, under the fabric. */
+.lining {
+  z-index: 1;
+  fill: var(--case-dark);
+}
+
+.fabric {
+  z-index: 4;
+}
+
+.caseFabric {
+  fill: var(--case);
+}
+
+.stitch {
+  fill: none;
+  stroke: var(--paper);
+  stroke-dasharray: 5 4;
+  stroke-opacity: 0.45;
+  stroke-width: 1.4;
+}
+
+.teeth {
+  fill: none;
+  stroke: var(--paper-deep);
+  stroke-dasharray: 2.4 2.4;
+  stroke-width: 5;
+}
+
+.pull {
+  fill: var(--paper-deep);
+}
+
+.pullHole {
+  fill: var(--case-dark);
+}
+
+/* ---------- What fell out, and is not a link ---------- */
+
+.ruler {
+  --r: -6deg;
+  z-index: 2;
+  top: 40px;
+  left: calc(var(--c) - 232px);
+  width: 330px;
+  height: 30px;
+}
+
+.rulerBody {
+  fill: var(--cap);
+}
+
+.ink {
+  fill: var(--ink);
+}
+
+.rulerNumber {
+  fill: var(--ink);
+  font-family: var(--print);
+  font-size: 7.5px;
+}
+
+.highlighter {
+  --r: 9deg;
+  z-index: 3;
+  top: 50px;
+  left: calc(var(--c) - 214px);
+  width: 170px;
+  height: 30px;
+}
+
+.felt {
+  fill: var(--sky-deep);
+}
+
+.barrel {
+  fill: var(--sky);
+}
+
+.cap {
+  fill: var(--sky-deep);
+}
+
+.capClip {
+  fill: var(--sky);
+}
+
+.sharpener {
+  --r: 20deg;
+  z-index: 6;
+  top: 58px;
+  left: calc(var(--c) + 40px);
+  width: 36px;
+  height: 28px;
+}
+
+.sharpenerBody {
+  fill: var(--cover-deep);
+}
+
+.sharpenerHole {
+  fill: var(--case-dark);
+}
+
+.sharpenerBlade {
+  fill: var(--paper-deep);
+}
+
+.clip {
+  z-index: 6;
+  width: 16px;
+  height: 40px;
+  fill: none;
+  stroke: var(--graphite);
+  stroke-linecap: round;
+  stroke-width: 1.8;
+}
+
+.clipOne {
+  --r: 74deg;
+  top: 50px;
+  left: calc(var(--c) + 104px);
+}
+
+.clipTwo {
+  --r: -36deg;
+  top: 56px;
+  left: calc(var(--c) + 306px);
+}
+
+/* ---------- The links: pencil, eraser, sticky note ---------- */
+
+.obj {
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: transform var(--t-hover) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Picked up: seen from above, a lifted object grows a little and turns a little. */
+.obj:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  transform: rotate(var(--r-on)) scale(1.04);
+}
+
+@media (hover: hover) {
+  .obj:hover {
+    transform: rotate(var(--r-on)) scale(1.04);
+  }
+}
+
+/* Pressed: set down again. */
+.obj:active {
+  transform: rotate(var(--r)) scale(0.97);
+}
+
+/* The pencil fell out on top of everything; it writes an email. */
+.pencil {
+  --r: 2deg;
+  --r-on: 1deg;
+  z-index: 6;
+  top: 4px;
+  left: calc(var(--c) - 30px);
+  display: flex;
+  align-items: center;
+  width: 330px;
+  height: 44px;
+}
+
+.pencilCap {
+  flex: none;
+  width: 12px;
+  height: var(--pt);
+  border-radius: 3px 0 0 3px;
+  background-color: var(--cap);
+}
+
+/* The address is stamped near the sharpened end, clear of anything lying on the other. */
+.pencilBody {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  height: var(--pt);
+  padding: 0 12px;
+  background-color: var(--accent);
+}
+
+/* The two side facets of the hexagonal pencil, a shade darker. */
+.pencilBody::before,
+.pencilBody::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  background-color: var(--accent-deep);
+}
+
+.pencilBody::before {
+  top: 0;
+  height: 23%;
+}
+
+.pencilBody::after {
+  bottom: 0;
+  height: 27%;
+}
+
+.pencilText {
+  position: relative;
+  color: var(--accent-ink);
+  font-family: var(--print);
+  font-size: var(--pfs);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transform: translateY(-1px);
+}
+
+.pencilTip {
+  display: block;
+  flex: none;
+  width: var(--cone);
+  height: var(--pt);
+}
+
+.wood {
+  fill: var(--paper-deep);
+}
+
+.woodShade {
+  fill: var(--cover);
+}
+
+.paint {
+  fill: var(--accent);
+}
+
+.paintSide {
+  fill: var(--accent-deep);
+}
+
+.lead {
+  fill: var(--graphite);
+}
+
+/* The eraser, GitHub printed on its paper sleeve. */
+.eraser {
+  --r: -7deg;
+  --r-on: -9deg;
+  z-index: 7;
+  top: 46px;
+  left: calc(var(--c) + 158px);
+  width: 128px;
+  height: 50px;
+  border-radius: 6px 16px 16px 6px;
+  background-color: var(--cap);
+}
+
+.sleeve {
+  position: absolute;
+  top: 0;
+  right: 22%;
+  bottom: 0;
+  left: 11%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: var(--sky);
+  font-family: var(--print);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.brand {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.model {
+  font-size: 12px;
+}
+
+/* The sticky note, LinkedIn. */
+.note {
+  --r: -5deg;
+  --r-on: -3deg;
+  z-index: 7;
+  top: 10px;
+  left: calc(var(--c) + 330px);
+  width: 112px;
+  height: 112px;
+  padding: 7px 12px;
+  border-radius: 2px;
+  background-color: var(--note);
+}
+
+.noteWord {
+  display: block;
+  font-family: var(--marker);
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.noteHandle {
+  display: block;
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+/* ---------- One page at a time: the strip starts a little closer to the page ---------- */
+
+@media not all and (min-width: 900px) and (min-height: 560px) and (orientation: landscape) {
+  .desk {
+    margin-top: -8px;
+  }
+}
+
+/*
+  Beside the book: the desk runs from the edge of the screen to the book's left edge, at
+  least 180px across (--side in Notebook.module.css), and from top to bottom. The case lies
+  at the foot with its open zip towards the top and runs off the bottom edge; the ruler and
+  the highlighter come out of the zip, and what fell out lies above it. Each thing is placed
+  by its centre, --x from the book's edge and --y from the top, and its size (--w, --h).
+*/
+@media (min-width: 600px) {
+  /* --book-w and --shift come from the stage. */
+  .desk {
+    position: absolute;
+    top: 0;
+    right: calc(50% + var(--book-w) / 2 - var(--shift));
+    bottom: 0;
+    left: 0;
+    margin: 0;
+  }
+
+  .case,
+  .thing,
+  .obj {
+    top: calc(var(--y) - var(--h) / 2);
+    left: calc(100% - var(--x) - var(--w) / 2);
+    width: var(--w);
+    height: var(--h);
+  }
+
+  .case {
+    --x: 108px;
+    --y: calc(100% - 50px);
+    --w: 340px;
+    --h: 130px;
+    --r: -84deg;
+  }
+
+  /* The ruler and the highlighter come out of the zip on the book's side, clear of the pencil; on a short screen the ruler stays further in. */
+  .ruler {
+    --x: 56px;
+    --y: max(100% - 220px, 500px);
+    --w: 330px;
+    --h: 30px;
+    --r: -94deg;
+  }
+
+  .highlighter {
+    --x: 100px;
+    --y: calc(100% - 190px);
+    --w: 170px;
+    --h: 30px;
+    --r: -78deg;
+  }
+
+  /* The pencil rises towards the book at three in one, so the address reads uphill. */
+  .pencil {
+    --x: 84px;
+    --y: max(400px, 45%);
+    --w: 320px;
+    --h: 44px;
+    --r: -71.57deg;
+    --r-on: -70.5deg;
+  }
+
+  .sharpener {
+    --x: 34px;
+    --y: max(470px, 56%);
+    --w: 36px;
+    --h: 28px;
+    --r: 16deg;
+  }
+
+  .clip {
+    --w: 16px;
+    --h: 40px;
+  }
+
+  .clipOne {
+    --x: 150px;
+    --y: max(100% - 290px, 62%);
+    --r: 28deg;
+  }
+
+  /* Under the case's lip, where the pencil may reach it on short screens. */
+  .clipTwo {
+    --x: 22px;
+    --y: calc(100% - 128px);
+    --r: -24deg;
+    z-index: 5;
+  }
+
+  .eraser {
+    --x: 114px;
+    --y: max(276px, 31%);
+    --w: 108px;
+    --h: 44px;
+    --r: 8deg;
+    --r-on: 10deg;
+  }
+
+  .note {
+    --x: 96px;
+    --y: 166px;
+    --w: 112px;
+    --h: 112px;
+    --r: -4deg;
+    --r-on: -2deg;
+  }
+}
+
+/* On a short screen the pencil reaches down to the zip, so the highlighter stays in the case. */
+@media (min-width: 600px) and (max-height: 799px) {
+  .highlighter {
+    display: none;
+  }
+}
+
+/* A phone held sideways scrolls: the desk runs the length of the page, and what runs off its foot is cut there. */
+@media (min-width: 600px) and (max-height: 479px) {
+  .desk {
+    bottom: auto;
+    height: calc(var(--page-h) + 88px);
+    overflow: clip;
+  }
+}
+
+/*
+  Phones: a smaller pile. The case lies mostly off the left edge with the pencil coming
+  out of it across the strip; the eraser and the sticky note are on the right.
+*/
+@media (max-width: 599px) {
+  .desk {
+    flex-basis: 84px;
+    --pt: 22px;
+    --cone: 30px;
+    --pfs: 12px;
+  }
+
+  .case {
+    --r: -4deg;
+    top: 6px;
+    left: -110px;
+    width: 238px;
+    height: 91px;
+  }
+
+  .ruler {
+    --r: -5deg;
+    top: 44px;
+    left: 56px;
+    width: 210px;
+    height: 19px;
+  }
+
+  .highlighter {
+    --r: 9deg;
+    top: 54px;
+    left: 74px;
+    width: 112px;
+    height: 20px;
+  }
+
+  /* At least 200px long, so the whole address fits (142px of it at 12px). */
+  .pencil {
+    --r: 2deg;
+    --r-on: 1deg;
+    top: 0;
+    left: 70px;
+    width: calc(100% - 156px);
+    height: 40px;
+  }
+
+  .pencilBody {
+    padding: 0 8px;
+  }
+
+  .sharpener {
+    --r: 20deg;
+    top: 60px;
+    left: calc(100% - 132px);
+    width: 30px;
+    height: 23px;
+  }
+
+  .clipOne {
+    --r: 72deg;
+    top: 46px;
+    left: calc(100% - 162px);
+  }
+
+  .clipTwo {
+    display: none;
+  }
+
+  .eraser {
+    --r: 9deg;
+    --r-on: 11deg;
+    top: 2px;
+    right: 10px;
+    left: auto;
+    width: 74px;
+    height: 40px;
+  }
+
+  .note {
+    --r: -6deg;
+    --r-on: -4deg;
+    top: 44px;
+    right: 14px;
+    left: auto;
+    width: 76px;
+    height: 76px;
+    padding: 7px 8px;
+  }
+
+  .model,
+  .noteHandle {
+    display: none;
+  }
+
+  .brand {
+    font-size: 13px;
+  }
+
+  .noteWord {
+    font-size: 20px;
+  }
+}
+
+/* The narrowest phones: the pencil starts further left and the address sets tighter, so it still fits. */
+@media (max-width: 359px) {
+  .pencil {
+    left: 40px;
+    width: calc(100% - 128px);
+  }
+
+  .pencilBody {
+    padding: 0 5px;
+  }
+
+  .pencilText {
+    letter-spacing: 0;
+  }
+}
+
+/* Without script the pages are stacked and scroll; the desk comes at the end. */
+:global(html:not(.js)) .desk {
+  height: 110px;
+}
+
+@media (min-width: 600px) {
+  :global(html:not(.js)) .desk {
+    position: relative;
+    inset: auto;
+    width: 250px;
+    height: 720px;
+    margin: 0 auto;
+  }
+}
+
+/* No motion: the objects stay put and the label is underlined instead. */
+@media (prefers-reduced-motion: reduce) {
+  .obj {
+    transition: none;
+  }
+
+  .obj:hover,
+  .obj:focus-visible,
+  .obj:active {
+    transform: rotate(var(--r));
+  }
+
+  .obj:hover .pencilText,
+  .obj:hover .brand,
+  .obj:hover .noteWord,
+  .obj:focus-visible .pencilText,
+  .obj:focus-visible .brand,
+  .obj:focus-visible .noteWord {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+}

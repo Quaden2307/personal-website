@@ -1,0 +1,35 @@
+/* The clip, taped into the page like a photograph; its Pause/Play label sits in the corner. */
+.clip {
+  position: relative;
+  display: flex;
+  height: 100%;
+}
+
+.clip video {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.toggle {
+  position: absolute;
+  right: 0.6em;
+  bottom: 0.6em;
+  min-width: 44px;
+  min-height: 32px;
+  padding: 0 0.7em;
+  border: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85em;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}

@@ -1,50 +1,67 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
-import Starfield from "@/components/Starfield";
-import Choreo from "@/components/Choreo";
-import ShipCursor from "@/components/ShipCursor";
+import { Patrick_Hand } from "next/font/google";
+import { site } from "@/lib/content";
 import "./globals.css";
 
-const archivo = Archivo({
-  subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-archivo",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex",
-  display: "swap",
-});
+/* The pen: Patrick Hand (SIL Open Font License), served by next/font. */
+const hand = Patrick_Hand({ weight: "400", subsets: ["latin"], variable: "--font-hand", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Caden Sun",
-  description: "Caden Sun — personal site, projects, and experience.",
+  metadataBase: new URL(site.url),
+  title: site.name,
+  description: site.description,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Caden Sun",
-    description: "Personal site, projects, and experience.",
     type: "website",
+    url: "/",
+    siteName: site.name,
+    title: site.name,
+    description: site.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.name,
+    description: site.description,
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070a14",
+  themeColor: "#e3d3b4",
+  colorScheme: "light",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+/*
+  Runs before first paint: marks the page as scripted, which turns the stacked pages
+  into the one-screen notebook. If the client bundle has not mounted within four
+  seconds, the page falls back to the stacked pages, which work without script.
+*/
+const bootScript = `(function(){var d=document.documentElement;d.classList.add("js");setTimeout(function(){if(!window.__notebookReady){d.classList.remove("js");}},4000);})();`;
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  sameAs: [site.github.href, site.linkedin.href],
+  affiliation: { "@type": "CollegeOrUniversity", name: "University of Waterloo" },
+  knowsAbout: ["Machine learning", "Information retrieval", "Mathematics"],
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${archivo.variable} ${plexMono.variable}`}>
-      <body className="relative min-h-screen">
-        <Starfield />
-        <Choreo />
-        <ShipCursor />
-        <div className="relative z-10">{children}</div>
+    <html lang="en" className={hand.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+        <link rel="preload" href="/fonts/GingerInk.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/GeneralSans-Medium.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />
+      </head>
+      <body>
+        <a className="skip-link" href="#notebook">
+          Skip to the notebook
+        </a>
+        {children}
       </body>
     </html>
   );
