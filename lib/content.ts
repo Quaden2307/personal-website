@@ -196,7 +196,7 @@ export const projects = {
     {
       key: "flight",
       title: "Flight Price Predictor",
-      category: "Gradient boosting, live",
+      category: "Data engineering, XGBoost, SQLite",
       summary:
         "An XGBoost model that prices round-trip flights on 200+ routes across 55+ airports. It misses by 14.6% on average on held-out trips, against 17.1% for a linear baseline. The pipeline collects about 4,000 offers a day.",
       facts: [],
@@ -208,13 +208,13 @@ export const projects = {
         src: "/images/flight.png",
         width: 1600,
         height: 1000,
-        alt: "The predictor’s preview pricing a December flight from New York to Tokyo at $1,260, and marking a $980 fare as 22% below typical.",
+        alt: "The fare checker: a plane over the clouds above a ticket from JFK to Tokyo Narita for 12 December 2026, with a typical fare of $1,296 and a range of $1,107 to $1,485.",
       },
     },
     {
       key: "cat",
       title: "Cat Classifier",
-      category: "Image classification, live",
+      category: "Computer vision, PyTorch, ONNX",
       summary:
         "A ResNet-18 fine-tuned on 1,722 photos decides whether a cat is a ragdoll, right in your browser. Answering no every time scored 77%, so a class-weighted loss ended that shortcut; a from-scratch baseline reached only 0.48 F1.",
       facts: [
@@ -280,7 +280,7 @@ export const projects = {
     {
       key: "chess",
       title: "Chess Bot",
-      category: "Alpha-beta search, live",
+      category: "Game-tree search, Flask, React",
       summary:
         "Negamax search with alpha-beta pruning, iterative deepening and quiescence search, a Zobrist-hashed transposition table and a tapered evaluation. A Flask API on Vercel answers a React board with a live evaluation bar.",
       facts: [],
@@ -302,7 +302,7 @@ export const projects = {
     {
       key: "world-cup",
       title: "World Cup Goal Predictor",
-      category: "Linear regression, from scratch",
+      category: "Linear regression, NumPy, gradient descent",
       summary:
         "Linear regression in NumPy with hand-derived gradient descent, predicting the goals in a match. It barely beats guessing the average, and loses on later tournaments: it learned 2.9 goals a match, and the next eight years averaged 2.5.",
       facts: [],
