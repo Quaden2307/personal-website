@@ -29,7 +29,7 @@ export const site = {
   email: "c262sun@uwaterloo.ca",
   github: { label: "github.com/Quaden2307", href: "https://github.com/Quaden2307" },
   linkedin: { label: "linkedin.com/in/cadensun", href: "https://www.linkedin.com/in/cadensun" },
-  graduation: 2029,
+  graduation: 2030,
 };
 
 export const cover = {
