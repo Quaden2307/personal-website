@@ -4,7 +4,6 @@ import { cssVars } from "@/lib/css";
 import NotebookController from "./behaviour/NotebookController";
 import Cat from "./Cat";
 import Desk from "./Desk";
-import Nav from "./Nav";
 import { AboutPage, BackCoverFace, ContentsPage, CoverFace, ProjectPage, RolePage } from "./Pages";
 import styles from "./Notebook.module.css";
 
@@ -39,7 +38,6 @@ export default function Notebook() {
 
   return (
     <div className={styles.stage} data-notebook>
-      <Nav />
       <div className={styles.window}>
         <div className={styles.book} data-book data-show="right" style={cssVars({ "--n": leaves.length })}>
           {leaves.map(([front, back], i) => (

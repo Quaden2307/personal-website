@@ -198,7 +198,7 @@ export const projects = {
       title: "Flight Price Predictor",
       category: "Data engineering, XGBoost, SQLite",
       summary:
-        "An XGBoost model that prices round-trip flights on 200+ routes across 55+ airports. It misses by 14.6% on average on held-out trips, against 17.1% for a linear baseline. The pipeline collects about 4,000 offers a day.",
+        "Predicts round-trip flight prices with an XGBoost model. A pipeline collects about 4,000 flight offers a day into a SQLite database to train it.",
       facts: [],
       links: [
         { label: "Live demo", href: "https://flight-price-predictor-eosin.vercel.app/" },
@@ -214,9 +214,9 @@ export const projects = {
     {
       key: "cat",
       title: "Cat Classifier",
-      category: "Computer vision, PyTorch, ONNX",
+      category: "Computer vision, PyTorch",
       summary:
-        "A ResNet-18 fine-tuned on 1,722 photos decides whether a cat is a ragdoll, right in your browser. Answering no every time scored 77%, so a class-weighted loss ended that shortcut; a from-scratch baseline reached only 0.48 F1.",
+        "A CNN fine-tuned in PyTorch that decides whether a cat is a ragdoll. It reaches an F1 score of 0.83.",
       facts: [
         ["F1", "0.832"],
         ["Precision", "0.800"],
@@ -282,7 +282,7 @@ export const projects = {
       title: "Chess Bot",
       category: "Game-tree search, Flask, React",
       summary:
-        "Negamax search with alpha-beta pruning, iterative deepening and quiescence search, a Zobrist-hashed transposition table and a tapered evaluation. A Flask API on Vercel answers a React board with a live evaluation bar.",
+        "A chess bot you can play in the browser. The engine is written from scratch in Python with alpha-beta search, behind a Flask API and a React board.",
       facts: [],
       links: [
         { label: "Live demo", href: "https://chess-bot-deployment.vercel.app/" },
@@ -304,7 +304,7 @@ export const projects = {
       title: "World Cup Goal Predictor",
       category: "Linear regression, NumPy, gradient descent",
       summary:
-        "Linear regression in NumPy with hand-derived gradient descent, predicting the goals in a match. It barely beats guessing the average, and loses on later tournaments: it learned 2.9 goals a match, and the next eight years averaged 2.5.",
+        "Predicts the goals in a World Cup match with linear regression written from scratch in NumPy and trained by gradient descent.",
       facts: [],
       links: [{ label: "GitHub", href: "https://github.com/Quaden2307/world-cup-score-prediction-model" }],
       picture: {
