@@ -1,6 +1,6 @@
 # Caden Sun — Personal Site
 
-https://cadensun.vercel.app/
+https://cadensun.com
 
 The site is a spiral notebook on a sand desk. It fills one screen and never scrolls: the cover says "Click to open", and clicking a page turns it (so do the arrow keys, and a swipe on a phone). Wide screens show the open spread; narrow screens show one page at a time. The contents page and links like `/#projects` jump straight to a chapter.
 

@@ -23,7 +23,7 @@ export type Run = string | { mark: string };
 
 export const site = {
   name: "Caden Sun",
-  url: "https://cadensun.vercel.app",
+  url: "https://www.cadensun.com",
   description:
     "A notebook of machine-learning models, built and measured by Caden Sun, a mathematics student at the University of Waterloo.",
   email: "c262sun@uwaterloo.ca",
